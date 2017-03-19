@@ -1,0 +1,2 @@
+# mygo
+go study notes
