@@ -1,0 +1,147 @@
+变量声明：
+全局变量声明用var
+var a int
+var b bool
+a = 12
+b = false
+
+在函数内部声明变量 :=方式
+a := 12
+b := false
+这种方式go会自动判定变量的类型
+
+对于多个变量声明用var ()方式
+var (
+	x int
+	b bool
+     )
+变量的平行赋值
+	a,b := 10,15
+同一类型的变量声明
+	var x,y int
+
+丢弃操作符号_ 可以对变量声明后丢弃
+_,b := 12,34 此时只是声明了一个变量b
+
+// 在函数内部声明可用:=
+	// a := 12.01 //Go 的编译器对声明却未使用的变量在报错
+
+//布尔类型声明
+	var flag bool
+	flag = true
+	// var hgflag bool
+	// hgflag = false
+
+	if flag {
+		fmt.Println("flag 是一个布尔类型，值是true")
+	}
+
+整型变量声明
+	var hg_s int64 = 12 //int64表示64位的整数，int32表示32位的，在64的系统上，int是64位
+	fmt.Println(hg_s)
+	var hg_num int32 = 42
+	var num int64
+	// num = hg_num + hg_s //invalid operation: hg_num + hg_s (mismatched types int32 and int64)
+	// fmt.Println(num)    //不同类型的相加，报错
+	var hg_a int64 = 123
+	fmt.Println(hg_a+num, hg_num)
+
+浮点数
+浮点类型的值有float32 和float64 （没有float 类型）。64 位的整数和浮
+点数总是64 位的，即便是在32 位的架构上。
+
+// 常量
+	const (
+		HG   = iota //第一个iota表示0，当iota再次在新的行使用就会叠加1
+		HG_B = iota
+	)
+	//常量在编译时被创建，一般只能是数字，布尔值，字符串
+	fmt.Println("HG 的值是", HG, "\nHG_B的值是", HG_B)
+	//枚举生成
+	const (
+		HG_X = iota
+		HG_Y //这里可以省略iota，此时HG_X = 0,HG_Y = 1
+		HG_Z
+	)
+	fmt.Println("HG_X,HG_Y,HG_Z的值依次是", HG_X, HG_Y, HG_Z) //HG_X,HG_Y,HG_Z的值依次是 0 1 2
+	// 指定类型的常量声明
+	const (
+		HG_MAX_NUM = 12
+		HG_FLAG    = "ffe" //必须是双引号，否则报错
+	)
+	var hg_foo = 's' //单引号是一个字符,是一个字符码115
+	fmt.Println(HG_FLAG, HG_MAX_NUM, hg_foo)
+
+	const (
+		HG_M = iota
+		HG_N
+		HG_O = 1
+		HG_P //在没有遇到iota会和上一行的值一样
+	)
+	fmt.Println(HG_M, HG_N, HG_O, HG_P) //0,1,1,1
+
+字符串
+另一个重要的内建类型是string。赋值字符串的例子：
+s := "Hello World!"
+字符串在Go 中是UTF-8 的由双引号(”) 包裹的字符序列。如果你使用单引号(’) 则表示一个字
+符（UTF-8编码）——这种在Go 中不是string。
+一旦给变量赋值，字符串就不能修改了：在Go 中字符串是不可变的。从C 来的用户，下面
+的情况在Go 中是非法的。
+var s string = "hello"
+s[0] = 'c'   修改第一个字符为'c'，这会报错
+
+// 在go中字符串必须用双引号，单引号是单一字符
+	// 字符串是不可变的
+	var hg_str = "abcd123"
+	hg_c := []byte(hg_str) //byte是uint8 的别名,将字符串转换为字符数组
+	// 声明一个数组类型，元素的值是单个字符（字节）
+	hg_c[1] = 's'
+	hg_str = string(hg_c) //转换为字符串
+	fmt.Println(hg_str)   //ascd123
+
+
+
+
+
+var s string = "hello"
+s[0] = 'c'   修改第一个字符为'c'，这会报错
+在Go 中实现这个，需要下面的方法：
+s := "hello"
+c := []byte(s)
+0.
+c[0] = 'c' 1.
+s2 := string(c)
+2.
+fmt.Printf("%s\n", s2)
+3.
+0. 转换s 为字节数组
+1. 修改数组的第一个元素；
+2. 创建新的字符串s2 保存修改；
+3. 用fmt.Printf 函数输出字符串
+
+rune是int别名
+
+复数
+Go 原生支持复数。它的变量类型是complex128 （64 位虚数部分）。如果需要小一些的，还
+有complex64 ——32 位的虚数部分。复数写为re + imi，re 是实数部分，im 是虚数部分
+var c complex64 = 5+5i;fmt.Printf("Value is: %v", c)
+将会打印：(5+5i)
+
+错误
+任何足够大的程序或多或少都会需要使用到错误报告。因此Go 有为了错误而存在的内建类
+型，叫做error。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,166 @@
+在Go 中只有很少的几个控制结构c。例如这里没有do 或者while 循环，只有for。有（灵活
+的）switch 语句和if，而switch 接受像for那样可选的初始化语句。还有叫做类型选择和多
+路通讯转接器的select （参阅第7 章）。语法有所不同（同C 相比）：无需圆括号，而语句
+体必须总是包含在大括号内
+
+//表达式 if  switch for 在go中可以省略()
+	if y > 120 {
+		fmt.Println("y 大于120")
+	} else {
+		fmt.Println("y小于120")
+	}
+
+	m := 123
+	switch {
+	case m < 100: //条件表达式
+		fmt.Println("m小于100")
+	case m > 120:
+		fmt.Println("m大于120")
+	default:
+		fmt.Println("daheige")
+	}
+
+	switch y > 1 {
+	case true:
+		fmt.Println("1")
+	default:
+		fmt.Println("0")
+
+	}
+	//x和条件匹配写法
+	//switch x {
+	//  case m,n
+	//}
+
+	//for循环
+	for i := 0; i < 5; i++ {
+		fmt.Println(i) //依次输出0,1,2,3,4
+	}
+
+	//在go中用for来模拟while 在for后面接着条件表达式，在{}是放的语句代码
+	for x < 4 {
+		fmt.Println(x)
+		x++
+	}
+
+
+
+对于switch在外面可以使表达式，也可以是某个值
+// x和条件匹配写法
+	switch x {
+	 case m,n
+	}
+
+
+强制大括号鼓励将简单的if 语句写在多行上。无论如何，这都是一个很好的形式，尤其是
+语句体中含有控制语句，例如return 或者break。
+if 和switch 接受初始化语句，通常用于设置一个（局部）变量。
+if err := file.Chmod(0664); err != nil {   nil is like C's NULL
+log.Stderr(err)   Scope of err is limited to if's body
+return err
+}
+
+
+goto
+Go 有goto 语句——明智的使用它。用goto 跳转到一定是当前函数内定义的标签。例如假设
+这样一个循环：
+func myfunc() {
+i := 0
+Here:   这行的第一个词，以分号结束作为标签
+println(i)
+i++
+goto Here   跳转
+}
+
+
+for
+Go 的for 循环有三种形式，只有其中的一种使用分号。
+	for init; condition; post { }   和C 的for 一样
+	for condition { }   和while 一样
+	for { }   和C 的for(;;) 一样（死循环）
+	短声明使得在循环中声明一个序号变量更加容易。
+	sum := 0
+	for i := 0; i < 10; i++ {
+		sum += i   sum = sum + i 的简化写法
+	}   i 实例在循环结束会消失
+
+
+由于Go 没有逗号表达式，而++ 和– 是语句而不是表达式，如果你想在for 中执行多个
+变量，应当使用平行赋值。
+// Reverse a
+for i, j := 0, len(a)-1; i < j; i, j = i+1, j-1 {   平行赋值
+a[i], a[j] = a[j], a[i]   这里也是
+}
+
+
+range
+保留字range 可用于循环。它可以在slice、array、string、map 和channel（参阅第7 章）。range
+是个迭代器，当被调用的时候，从它循环的内容中返回一个键值对。基于不同的内
+容，range 返回不同的东西。
+当对slice 或者array 做循环时，range 返回序号作为键，这个序号对应的内容作为值。考虑
+这个代码：
+list := []string{"a", "b", "c", "d", "e", "f"}
+0.
+for k, v := range list { 1.
+// 对k 和v 做想做的事情 2.
+}
+0. 创建一个字
+
+
+switch
+Go 的switch 非常灵活。表达式不必是常量或整数，执行的过程从上至下，直到找到匹
+配项，而如果switch 没有表达式，它会匹配true 。这产生一种可能——使用switch 编
+写if-else-if-else 判断序列。
+func unhex(c byte) byte {
+switch {
+case '0' <= c && c <= '9':
+return c - '0'
+case 'a' <= c && c <= 'f':
+return c - 'a' + 10
+case 'A' <= c && c <= 'F':
+return c - 'A' + 10
+}
+return 0
+}
+它不会匹配失败后自动向下尝试，但是可以使用fallthrough 使其这样做。没有fallthrough：
+switch i {
+case 0: // 空的case 体
+case 1:
+f() // 当i == 0 时，f 不会被调用！
+}
+而这样：
+switch i {
+case 0: fallthrough
+case 1:
+f() // 当i == 0 时，f 会被调用！
+}
+d在UTF-8 世界的字符有时被称作runes。通常，当人们讨论字符时，多数是指8 位字符。UTF-8 字符可能会
+有32 位，称作rune。
+
+
+用default 可以指定当其他所有分支都不匹配的时候的行为。
+switch i {
+case 0:
+case 1:
+f()
+default:
+g() // 当i 不等于0 或1 时调用
+}
+
+分支可以使用逗号分隔的列表。
+func shouldEscape(c byte) bool {
+switch c {
+case ' ', '?', '&', '=', '#', '+':   , as "or"
+return true
+}
+return false
+}
+
+
+
+
+
+
+
+
+

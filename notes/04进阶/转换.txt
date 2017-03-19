@@ -1,0 +1,45 @@
+转换
+有时需要将一个类型转换为另一个类型。在Go 中可以做到，不过有一些规则。首先，将一
+个值转换为另一个是由操作符（看起来像函数：byte()）完成的，并且不是所有的转换都是
+允许的。
+Table 5.1. 合法的转换，float64 同float32 类似
+From xb []byte xi []int s string f float32 i int
+To
+[]byte × []byte(s)
+[]int × []int(s)
+string string(xb) string(xi) ×
+float32 × float32(i)
+int int(f) ×
+从string 到字节或者整形的slice。
+mystring := "hello this is string"
+byteslice := []byte(mystring)
+转换到byte slice，每个byte 保存字符串对应字节的整数值。注意Go 的字符串是UTF-
+8 编码的，一些字符可能是1、2、3 或者4 个字节结尾。
+intslice := []int(mystring)
+转换到int slice，每个int 保存Unicode 编码的指针。字符串中的每个字符对应一个
+整数。
+从字节或者整形的slice 到string。
+64 Chapter 5: 进阶
+b := []byte{'h','e','l','l','o'}   复合声明
+s := string(b)
+i := []int{257,1024,65}
+r := string(i)
+对于数值，定义了下面的转换：
+将整数转换到指定的（bit）长度：uint8(int)；
+从浮点数到整数：int(float32)。这会截断浮点数的小数部分；
+其他的类似：float32(int)。
+用户定义类型的转换
+如何在自定义类型之间进行转换？这里创建了两个类型Foo 和Bar，而Bar 是Foo 的一个别
+名：
+type foo struct { int }   匿名字段
+type bar foo   bar 是foo 的别名
+然后：
+var b bar = bar{1}   声明b 为bar 类型
+var f foo = b   赋值b 到f
+最后一行会引起错误：
+cannot use b (type bar) as type foo in assignment(不能使用b（类型bar）作为类型foo
+赋值)
+这可以通过转换来修复：
+var f foo = foo(b)
+注意转换那些字段不一致的结构是相当困难的。同时注意，转换b 到int 同样会出错；整数
+与有整数字段的结构并不一样。

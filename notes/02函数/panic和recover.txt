@@ -1,0 +1,16 @@
+恐慌（Panic）和恢复（Recover）
+
+这个函数检查作为其参数的函数在执行时是否会产生panic d：
+func throwsPanic(f func()) (b bool) {
+0.
+defer func() { 1.
+if x := recover(); x != nil {
+b = true
+}
+}()
+f()
+2.
+return
+3.
+}
+

@@ -1,0 +1,90 @@
+在Go 中，保留字interface 被赋予了多种不同下 面 的 内 容 来 的含义。每个类型都有接口
+
+
+package main
+
+import (
+	"fmt"
+)
+
+//接口中含有抽象方法
+type I interface {
+	Get() int
+	Put(int)
+}
+
+//在接口中的方法，采用了鸭子式实现了，就是在其他的方法上有定义这些抽象方法就可以
+type S struct {
+	i int
+}
+
+//S 实现了I
+//获取s 的地址，而不是S 的值的原因，是因为在s 的指针上定义了方法
+//我们在*S（S的指针上定义了方法Get(),所以这里的p是一个结构体的指针
+func (p *S) Get() int { //(p *S)表示接收参数 p的类型是一个结构体的指针
+	return p.i
+}
+
+func (p *S) Put(v int) { //传递到函数中的参数是v int
+	p.i = v
+}
+
+//定义一个函数接受一个接口类型作为参数
+//这里的变量f 保存了接口类型的值。
+func myf(f I) {
+	//f实现了接口I，必须有Get()方法；
+	fmt.Println(f.Get()) //I接口上的Get，被其他的函数Get给实现了
+	f.Put(12)            //设置值,//f实现了接口I，必须有Get()方法；
+	fmt.Println(f.Get())
+}
+func main() {
+	var s S          //s的类型是一个结构体
+	fmt.Println(s.i) //s.i初始化为0
+
+	//因为S 实现了I，可以调用myf 向其传递S 类型的值的指针：
+	myf(&s) //改变s.i的值
+	/*
+	       实际上，无须明确一个类型是否实现了一个接口意味着Go 实现了叫做duck typing[34] 的模
+	   式。这不是纯粹的duck typing，因为如果可能的话Go 编译器将对类型是否实现了接口进行
+	   接口71
+	   实现静态检查。然而，Go 确实有纯粹动态的方面，如可将一个接口类型转换到另一个。通
+	   常情况下，转换的检查是在运行时进行的。如果是非法转换——当在已有接口值中存储的类
+	   型值不匹配将要转换到的接口——程序会抛出运行时错误
+	*/
+}
+
+为了在
+运行时得到类型，同样可以使用“comma, ok”来判断一个接口类型是否实现了某个特定接
+口：
+if t, ok := something.(I); ok {
+// 对于某些实现了接口I 的
+// t 是其所拥有的类型
+}
++
+确定一个变量实现了某个接口，可以使用：
+t := something.(I)
+
+
+由于每个类型都能匹配到空接口：interface{}。我们可以创建一个接受空接口作为参数的
+普通函数：
+Listing 6.2. 用空接口作为参数的函数
+func g(something interface{}) int {
+return something.(I).Get()
+}
+在这个函数中的return something.(I).Get() 是有一点窍门的。值something 具有类型interface{}，
+这意味着方法没有任何约束：它能包含任何类型。.(I) 是类型断言，用于转换something
+到I 类型的接口。如果有这个类型，则可以调用Get() 函数。因此，如果创建一个*S 类型的
+新变量，也可以调用g()，因为*S 同样实现了空接口。
+s = new(S)
+fmt.Println(g(s));
+调用g 的运行不会出问题，并且将打印0。如果调用g() 的参数没有实现I 会带来一个麻烦：
+Listing 6.3. 实现接口失败
+i := 5   声明i 是一个``该死的'' int
+fmt.Println(g(i))
+这能编译，但是当运行的时候会得到：
+panic: interface conversion: int is not main.I: missing method Get
+这是绝对没问题，内建类型int 没有Get() 方法。
+
+
+
+

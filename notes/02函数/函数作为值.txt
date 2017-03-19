@@ -1,0 +1,12 @@
+函数作为值
+就像其他在Go 中的几乎所有东西，函数也同样是值而已。它们可以像下面这样赋值给变
+量：
+Listing 3.11. Anonymous function
+func main() {
+a := func() {   定义一个匿名函数，并且赋值给a
+println("Hello")
+}   这里没有()
+a()   调用函数
+}
+如果使用fmt.Printf("%T\n", a)
+

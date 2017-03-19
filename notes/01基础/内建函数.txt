@@ -1,0 +1,30 @@
+预定义了少数函数，这意味着无需引用任何包就可以使用它们。表格2.3 列出了所有的内建
+函数
+
+Go 中的预定义函数
+close new panic complex
+delete make recover real
+len append print imag
+cap copy println
+
+close 用于channel 通讯。使用它来关闭channel，
+
+delete 用于在map 中删除实例
+
+len 和cap 可用于不同的类型，len 用于返回字符串、slice 和数组的长度
+
+new 用于各种类型的内存分配
+
+make 用于内建类型（map、slice 和channel）的内存分配
+
+
+copy 用于复制slice。append 用于追加slice
+
+panic 和recover 用于异常处理机制
+
+print 和println 是底层打印函数，可以在不引入fmt 包的情况下使用。它们主要用于调
+试
+
+
+
+

@@ -1,0 +1,37 @@
+func pg() {
+	a := 123
+	hg_p(a) //当我们试图在hg_p()函数中嗲用a变量，undefined: a
+}
+func hg_p(a int) {
+	fmt.Println(a)
+}
+
+func myfacNum(n int) int {
+	if n == 0 {
+		return 1
+	}
+	return n * myfacNum(n-1)
+
+}
+
+//另一种写法,直接在函数声明的时候告诉函数，返回的结果是一个int的数字
+func fac(n int) (result int) {
+	if n == 1 {
+		result = 1
+	} else {
+		result = n * fac(n-1)
+	}
+	return
+}
+
+//返回多个值
+func getAllVal(n int) (a int, b int) {
+	if n == 1 {
+		a = 1
+		b = 2
+	}
+	a = 3
+	b = 4
+	return
+}
+

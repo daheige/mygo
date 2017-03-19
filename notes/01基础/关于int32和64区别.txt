@@ -1,0 +1,24 @@
+Go 有众所周知的类型如int，这个类型根据你的硬件决定适当的长度。意味着在32 位硬件
+上，是32 位的；在64 位硬件上是64 位的。注意：int 是32 或64 位之一，不会定义成其他
+值。uint 情况相同。
+
+如果你希望明确其长度，你可以使用int32 或者uint32。完整的整数类型列表（符号和
+无符号）是int8，int16，int32，int64 和byte，uint8，uint16，uint32，uint64。byte
+是uint8 的别名。浮点类型的值有float32 和float64 （没有float 类型）。64 位的整数和浮
+点数总是64 位的，即便是在32 位的架构上。
+
+需要留意的是这些类型全部都是独立的，并且混合用这些类型向变量赋值会引起编译器错
+误，例如下面的代码：
+
+var hg_s int64 = 12 //int64表示64位的整数，int32表示32位的，在64的系统上，int是64位
+	fmt.Println(hg_s)
+	var hg_num int32 = 42
+	var num int64
+	// num = hg_num + hg_s //invalid operation: hg_num + hg_s (mismatched types int32 and int64)
+	// fmt.Println(num)    //不同类型的相加，报错
+	var hg_a int64 = 123
+	fmt.Println(hg_a+num, hg_num)
+
+
+
+

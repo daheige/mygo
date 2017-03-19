@@ -1,0 +1,22 @@
+break default func interface select
+case defer go map struct
+chan else goto package switch
+const fallthrough if range type
+continue for import return var
+
+表格2.2 列出了Go 中所有的保留字。在下面的段落和章节中会介绍它们。其中有一些已经遇
+到过了。
+var 和const 参阅“变量、类型和保留字” 在8 页；
+package 和import 已经有过短暂的接触，在“Hello World” 部分。在第4 章对其有详细
+的描述。
+其他都有对应的介绍和章节：
+func 用于定义函数和方法；
+return 用于从函数返回，func 和return 参阅第3 章了解详细信息；
+go 用于并行（第7 章）；
+select 用于选择不同类型的通讯，参阅第7 章；
+interface 参阅第6 章；
+struct 用于抽象数据类型，参阅第5 章；
+type 同样参阅第5 章。
+
+
+

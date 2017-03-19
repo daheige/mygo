@@ -1,0 +1,19 @@
+假设有一个函数，打开文件并且对其进行若干读写。在这样的函数中，经常有提前返回的地
+方
+
+为了解决这些，Go 有了defer 语句。在defer 后指定的函数会在
+函数退出前调用
+
+
+
+可以将多个函数放入“延迟列表”中
+
+//defer延迟调用,无论函数是否出错，都在结束前被调用
+//defer执行的顺序是倒序执行
+//defer一般用来释放资源，解除锁定或执行清理操作
+func hello(a, b int) {
+	defer fmt.Println("dispose延迟中...")
+	defer fmt.Println("dispose我是先执行的...")
+	fmt.Println(a / b)
+}
+

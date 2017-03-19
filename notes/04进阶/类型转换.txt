@@ -1,0 +1,46 @@
+//定义自己的类型
+	type foo int //创建了一个新的类型foo 作用跟int 一样。创建更加复杂的类型需要用到struct 保留字
+	var s foo
+	s = 12
+	fmt.Println("s的值是", s) //12
+
+	//定义一个结构体
+	type UserInfo struct {
+		username string
+		age      int
+	}
+	user1 := new(UserInfo) //new用来分配内存，返回新分配的内存的指针
+	user1.username = "zhuwei"
+	user1.age = 27
+	fmt.Println("username is", user1.username, "age is", user1.age)
+
+	//类型转换 将一个类型转换为另一个类型
+	//byte 表示单个字节
+	//将字符串转换给单个字节的数组
+	str := "abc123"
+	strslice := []byte(str)
+	// 转换到byte slice，每个byte 保存字符串对应字节的整数
+	fmt.Println(strslice) //结果是单个字符的编码 [97 98 99 49 50 51]
+	//转换为整数的字节
+	// numslice := []int(str) //报错
+	// fmt.Println(numslice)
+
+	b := []byte{'h', 'e', 'i', 'g', 'e'}
+	//将字节数组转换为字符串
+	mystr := string(b)
+	fmt.Println(mystr) //heige
+
+	//将整形数组转换为字符串
+
+	// x := []int{10, 12, 13}
+	// fmt.Println(string(x)) //报错
+	//浮点数转换
+	y := 12
+	fmt.Println(float64(y)) //
+	// z := "12"
+	// fmt.Println(int(z)) //不能讲字符串数字转换为整形
+	// fmt.Println(float64(z)) //cannot convert z (type string) to type float64
+	//转换那些字段不一致的结构是相当困难的。同时注意，转换b 到int 同样会出错；整数
+	// 与有整数字段的结构并不一样。
+
+

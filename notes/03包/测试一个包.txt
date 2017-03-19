@@ -1,0 +1,50 @@
+在包的目录下新建even_test.go
+package even
+
+import (
+	"testing" //用于做测试的包
+)
+
+func TestEven(t *testing.T) {
+	if !Even(22) {
+		t.Log("2 should be even")
+		t.Fail() //测试失败了，终止程序
+		// t.FailNow() //表示跳过继续执行
+	}
+	t.Log("ok")
+}
+
+
+
+测试本身是由go test 完成的。go test 程序调用了所有的测试函数。even 包没有定义任何
+测试函数，执行go test，这样：
+% go test
+? even [no test files]
+在测试文件中定义一个测试来修复这个。测试文件也在包目录中，被命名为*_test.go。这
+些测试文件同Go 程序中的其他文件一样，但是go test 只会执行测试函数。每个测试函数都
+有相同的标识，它的名字以Test 开头：
+func TestXxx(t *testing.T)   Test<Capital>restOftheNe
+编写测试时，需要告诉go test 测试是失败还是成功。测试成功则直接返回。当测试失败可
+以用下面的函数标记[15]。这是非常重要的（参阅go doc testing 了解更多）：
+func (t *T) Fail()
+Fail 标记测试函数失败，但仍然继续执行。
+func (t *T) FailNow()
+FailNow 标记测试函数失败，并且中断其执行。这将会执行下一个测试。因此，当前文件的
+其他所有测试都被跳过。
+func (t *T) Log(args ...interface{})
+Log 用默认格式对其参数进行格式化，与Print() 类似，并且记录文本到错误日志。
+func (t *T) Fatal(args ...interface{})
+Fatal 等价于Log() 后跟随FailNow()。
+将这些凑到一起，就可以编写测试了。首先，选择名字even_test.go。然后添加下面的内
+容：
+Listing 4.3. even 包的测试
+package even 1
+import "testing" 3
+func TestEven(t *testing.T) { 5
+if ! Even(2) { 6
+t.Log("2 should be even!") 7
+t.Fail() 8
+} 9
+} 10
+注意在第一行使用了package even，测试使用与被测试的包使用相同的名字空间。
+

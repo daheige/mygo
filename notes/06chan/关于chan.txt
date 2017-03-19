@@ -1,0 +1,14 @@
+channel当在Go中用ch := make(chan bool) 创建chennel时，bool 型的无缓冲channel 会被创建。
+这对于程序来说意味着什么呢？首先，如果读取（value := <-ch）它将会被阻塞，直到有数据接收。
+其次，任何发送（ch<-5）将会被阻塞，直到数据被读出。无缓冲channel 是在多个goroutine 之间同步很棒的工具。不过Go 也允许指定channel 的缓冲大小，很简单，就是channel 可以存储多少元素。ch:= make(chan bool, 4)，创建了可以存储4 个元素的bool 型channel。在这个channel 中,前4 个元素可以无阻塞的写入。当写入第5?元素时，代码将会阻塞，直到其他goroutine从channel 中读取一些元素,腾出空间
+
+虽然从channel读取是阻塞的，但是仍然可以用下面的方式实现非阻塞的读取：
+需要对这个做一些测
+试。x, ok = <-ch
+
+当读取到了内容时ok 为true，否则为false。同时，x 从channel 获取到值。一句话说，
+在Go 中下面的为true：
+ch := make(chan type, value)
+{
+value == 0 ! 无缓冲（阻塞）
+value > 0 ! 缓冲（非阻塞）

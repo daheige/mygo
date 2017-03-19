@@ -1,0 +1,95 @@
+内存分配
+Go 同样也垃圾收集，也就是说无须担心内存分配和回收。
+Go 有两个内存分配原语，new 和make
+
+用new 分配内存
+内建函数new 本质上说跟其他语言中的同名函数功能一样：new(T) 分配了零值填充的T 类型
+的内存空间，并且返回其地址，一个*T 类型的值。用Go 的术语说，它返回了一个指针，指
+向新分配的类型T 的零值
+
+new分配T类型的地址，返回一个指针，在指针的前面加上*可以获取变量T的值
+
+
+
+用make 分配内存
+回到内存分配。内建函数make(T, args) 与new(T) 有着不同的功能。它只能创建slice，map
+和channel，并且返回一个有初始值（非零）的T 类型，而不是*T。本质来讲，导致这三个
+类型有所不同的原因是指向数据结构的引用在使用前必须被初始化。例如，一个slice，是一
+个包含指向数据（内部array）的指针，长度和容量的三项描述符；在这些项目被初始化之
+前，slice 为nil。对于slice，map 和channel，make 初始化了内部的数据结构，填充适当的
+值。
+make 返回初始化后的（非零）值
+
+
+例如，make([]int, 10, 100) 分配了100 个整数的数组，然后用长度10 和容量100 创建
+了slice 结构指向数组的前10 个元素
+创建的切片是指向数组的前10个值
+
+区别是，new([]int) 返回指向新分配的内存的指针，
+而零值填充的slice 结构是指向nil 的slice 值
+
+var p *[]int = new([]int)   分配slice 结构内存；*p == nil
+  已经可用
+var v []int = make([]int, 100)   v 指向一个新分配的有100 个整数的数组。
+var p *[]int = new([]int)   不必要的复杂例子
+*p = make([]int, 100, 100)
+v := make([]int, 100)   更常见
+务必记得make 仅适用于map，slice 和channel，并且返回的不是指针。应当用new 获得特定
+的指针
+
+new([]int) 返回指向新分配的内存的指针
+内建函数make(T, args) 与new(T) 有着不同的功能。它只能创建slice，map
+和channel，并且返回一个有初始值（非零）的T 类型，而不是*T
+
+make分配内存只能是slice,map,channel类型
+
+new(T) 返回*T 指向一个零值T，返回了一个指针
+make(T) 返回初始化后的T，返回不是*T,是一个有初始值的T类型。
+
+构造函数与复合声明
+有时零值不能满足需求，必须要有一个用于初始化的构造函数，例如这个来自os 包的例子。
+func NewFile(fd int, name string) *File {
+if fd < 0 {
+return nil
+}
+f := new(File)
+f.fd = fd
+f.name = name
+f.dirinfo = nil
+f.nepipe = 0
+return f
+}
+有许多冗长的内容。可以使用复合声明使其更加简洁，每次只用一个表达式创建一个新的实
+例。
+func NewFile(fd int, name string) *File {
+if fd < 0 {
+return nil
+}
+f := File{fd, name, nil, 0}   Create a new File
+return &f   Return the address of f
+}
+返回本地变量的地址没有问题；在函数返回后，相关的存储区域仍然存在。
+
+从复合声明获取分配的实例的地址更好，因此可以最终将两行缩短到一行。b
+return &File{fd, name, nil, 0}
+
+复合声明同样可以用于创建array，slice 和map，通过指定适当的索引和map 键来标识字
+段。在这个例子中，无论是Enone，Eio 还是Einval 初始化都能很好的工作，只要确保它们
+不同就好了。
+
+ar := [...]string {Enone: "no error", Einval: "invalid argument"}
+sl := []string {Enone: "no error", Einval: "invalid argument"}
+ma := map[int]string{Enone: "no error", Einval: "invalid argument"}
+
+
+new 返回新分配的内存指针
+new([]int) 返回指向新分配的内存的指针
+内建函数make(T, args) 与new(T) 有着不同的功能。它只能创建slice，map
+和channel，并且返回一个有初始值（非零）的T 类型，而不是*T
+
+
+
+
+
+
+

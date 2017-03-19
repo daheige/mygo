@@ -1,0 +1,38 @@
+网络
+所有网络相关的类型和函数可以在net 包中找到。这其中最重要的函数是Dial。当Dial 到远
+程系统，这个函数返回Conn 接口类型，可以用于发送或接收信息。函数Dial 简洁的抽象了
+网络层和传输层。因此IPv4 或者IPv6，TCP 或者UDP 可以共用一个接口。
+通过TCP 连接到远程系统（端口80），然后是UDP，最后是TCP 通过IPv6，大致是这样：a
+conn, e := Dial("tcp", "192.0.32.10:80")
+conn, e := Dial("udp", "192.0.32.10:80")
+conn, e := Dial("tcp", "[2620:0:2d0:200::10]:80")   方括号是强制的
+如果没有错误（由e 返回），就可以使用conn 从套接字中读写。在包net 中的原始定义是：
+// Read reads data from the connection.
+// Read can be made to time out and return a net.Error with Timeout()== true
+// after a fixed time limit; see SetDeadline and SetReadDeadline.
+Read(b []byte)(n int, err error)
+// Write writes data to the connection.
+// Write can be made to time out and return a net.Error with Timeout()== true
+// after a fixed time limit; see SetDeadline and SetWriteDeadline.
+Write(b []byte)(n int, err error)
+但是这些都是隐含的低层b ，通常总是应该使用更高层次的包。例如http 包。一个简单
+的http Get 作为例子：
+package main
+import ( "io/ioutil"; "http"; "fmt" )
+0.
+func main() {
+r, err := http.Get("http://www.google.com/robots.txt") 1.
+if err != nil { fmt.Printf("%s\n", err.String()); return }
+2.
+b, err := ioutil.ReadAll(r.Body)
+3.
+r.Body.Close()
+if err == nil { fmt.Printf("%s", string(b)) } 4.
+}
+0. 需要的导入；
+1. 使用http的Get获取html；
+2. 错误处理；
+3. 将整个内容读入b；
+4. 如果一切OK的话，打印内容。
+
+

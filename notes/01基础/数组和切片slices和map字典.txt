@@ -1,0 +1,93 @@
+array、slices 和map
+可以利用array 在列表中进行多个值的排序，或者使用更加灵活的：slice。字典或哈希类型
+同样可以使用，在Go 中叫做map。
+array
+array 由[n]<type> 定义，n 标示array 的长度，而<type> 标示希望存储的内容的类型。
+对array 的元素赋值或索引是由方括号完成的：
+var arr [10]int
+arr[0] = 42
+arr[1] = 13
+fmt.Printf("The first element is %d\n", arr[0])
+
+像var arr = [10]int 这样的数组类型有固定的大小。大小是类型的一部分。由于不同的大
+小是不同的类型，因此不能改变大小。数组同样是值类型的：将一个数组赋值给另一个数
+组，会复制所有的元素。尤其是当向函数内传递一个数组的时候，它会获得一个数组的副
+本，而不是数组的指针。
+可以像这样声明一个数组：var a [3]int，如果不使用零来初始化它，则用复合声明：a :=
+[3]int{1, 2, 3} 也可以简写为a := [...]int{1, 2, 3}，Go 会自动统计元素的个数。注复合声明允许你直接将值赋值给array 、slice 或者map。
+所有项目必须都指定。因此，如果你使用多维数组，有一些内容你必须录入：
+a := [2][2]int{ [2]int{1,2}, [2]int{3,4} }
+
+
+array、slice 和map 的复合声明变得更加简单。使用复合声明的array、slice
+和map，元素复合声明的类型与外部一样，则可以省略
+//声明多维数组 [[1,2],[3,4]]
+	hg_type := [2][2]int{{1, 2}, {3, 4}} //当声明一个array 时，你必须在方括号内输入些内容，数字或者三个点(...)
+	fmt.Println(hg_type)
+
+slice
+TODO
+Add push/pop to
+this section as container/
+vector will be
+depricated.
+slice 与array 接近，但是在新的元素加入的时候可以增加长度。slice 总是指向底层的一
+个array。slice 是一个指向array 的指针，这是其与array 不同的地方；slice 是引用类型，
+引用类型使用make 创
+建。
+这意味着当赋值某个slice 到另外一个变量，两个引用会指向同一个array。例如，如果一个
+函数需要一个slice 参数，在其内对slice 元素的修改也会体现在函数调用者中，这和传递底
+层的array 指针类似。通过：
+sl := make([]int, 10)
+创建了一个保存有10 个元素的slice。需要注意的是底层的array 并无不同。slice 总是与一个
+固定长度的array 成对出现。其影响slice 的容量和长度。图2.1 描述了下面的Go 代码。首先
+创建了m个元素长度的array，元素类型int：var array[m]int
+然后对这个array 创建slice：slice := array[0:n]
+然后现在有：
+ len(slice)== n ;
+ cap(slice)== m ;
+ len(array)== cap(array)== m .
+
+
+/*
+	       slice 与array 接近，但是在新的元素加入的时候可以增加长度。slice 总是指向底层的一
+	   个array。slice 是一个指向array 的指针，这是其与array 不同的地方；slice 是引用类型，
+	   引用类型使用make 创
+	   建。
+	   这意味着当赋值某个slice 到另外一个变量，两个引用会指向同一个array
+	*/
+	myslice := make([]int, 10) //创建一个长度为10的slice,类型是存放int
+	myslice[0] = 1
+	fmt.Println(myslice) //[1 0 0 0 0 0 0 0 0 0]
+
+	//创建一个数组
+	arr := [10]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10} //创一个长度为10的数组
+	fmt.Println(arr)
+	//通过arr[m:n] ,从m位置到n-1位置创建一个切片,相当于截取数组的部分值
+	s1 := arr[0:3]
+	fmt.Println(s1) //[1,2,3] 这里s1是指向arr,slice底层其实就是一个数组array
+	fmt.Println(arr[2:4])
+
+	//对切片进行值的追加
+	s2 := []int{0, 0}
+	/**
+	       * 函数append 向slice s 追加零值或其他x 值，并且返回追加后的新的、与s 有相
+	  同类型的slice。如果s 没有足够的容量存储追加的值，append 分配一个足够大
+	  的内存空间存放，新的slice 来存放原有slice 的元素和追加的值。因此，返回的slice 可能指
+	  向不同的底层array。
+	*/
+	s3 := append(s2, 1, 2) //产生一个新的切片slice
+	fmt.Println(s3)        //[0,0,1,2]
+
+	//copy用来将一个src slice复制到目标dist slice中去
+	//源和目标可能重叠。复制的数量是len(src) 和len(dst) 中的最小值。
+	s4 := [...]int{1, 2, 3, 4, 5, 6, 7}
+	var hg_s = make([]int, 5)
+	m1 := copy(hg_s, s4[0:]) //返回复制元素的个数
+	fmt.Println(m1)
+	fmt.Println(hg_s) //[1,2,3,4,5]
+
+
+
+
+

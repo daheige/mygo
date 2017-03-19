@@ -1,0 +1,52 @@
+包是函数和数据的集合。用package 保留字定义一个包。文件名不需要与包名一致。包名
+的约定是使用小写字符。Go 包可以由多个文件组成，但是使用相同的package <name> 这一
+行。让我们在文件even.go 中定义一个叫做even 的包。
+Listing 4.1. A small package
+package even   开始自定义的包
+func Even(i int) bool {   可导出函数
+return i % 2 == 0
+}
+func odd(i int) bool {   私有函数
+return i % 2 == 1
+}
+名称以大写字幕起始的是可导出的，可以在包的外部调用，稍候会讨论这个。
+现在只需要构建这个包。在$GOPATH 下建立一个目录，复制even.go 到这个目录（参阅第2 章
+的“编译和运行代码”）。
+% mkdir $GOPATH/src/even   建立一个顶级目录
+% cp even.go $GOPATH/src/even   复制包文件
+% go build even   构建它
+接下来在程序myeven.go 中使用这个包：
+Listing 4.2. even 包的使用
+package main
+import (
+0.
+"even" 1.
+"fmt"
+2.
+)
+func main() {
+i := 5
+fmt.Printf("Is %d even? %v\n", i, even.Even(i))
+3.
+}
+0. 导入下面的包；
+标识符49
+1. 本地包even在这里导入；
+2. 官方fmt 包导入；
+3. 调用even包中的函数。访问一个包中的函数的语法是<package>.Function()。
+% go build myeven.go
+% ./myeven
+Is 5 even? false
+在Go 中，当函数的首字母大写的时候，函数会被从包中导出（在包外部可见，或者说公有
+的），因此函数名是Even。如果修改myeven.go 的第10 行，使用未导出的函数even.odd：
+fmt.Printf("Is %d even? %v\n", i, even.odd(i))
+由于使用了私有的函数，会得到一个编译错误：
+myeven.go:10: cannot refer to unexported name even.odd
+概括来说：
+ 公有函数的名字以大写字母开头；
+ 私有函数的名字以小写字幕开头。
+这个规则同样适用于定义在包中的其他名字（新类型、全局变量）。注意，“大写”的含义并
+不仅限于US ASCII，它被扩展到了整个Unicode 范围。所以大写的希腊语、古埃及语都是可
+以的
+
+

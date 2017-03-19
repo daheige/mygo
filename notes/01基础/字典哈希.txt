@@ -1,0 +1,30 @@
+许多语言都内建了类似的类型，例如Perl 有哈希，Python 有字典，而C++ 同样也有map
+（作为它们的库）。在Go 中有map 类型。map 可以认为是一个用字符串做索引的数组（在其
+最简单的形式下）
+
+m := map[string]int{
+		"hg_x": 12, //这里的key必须是字符串，双引号
+		"hg_y": 13, //最后的一个逗号是必须的
+	}
+	fmt.Println(m["hg_x"]) //打印12
+	//通过make方式，自动分配内存声明一个字典
+	hg_m := make(map[string]int) //声明一个哈希，其元素的key是一个字符串，值是int类型
+	hg_m["x_1"] = 12
+	hg_m["x_2"] = 13
+
+	//对字典进行遍历用for...range 每次调用，它都会返回一个键和对应的值
+	for k, v := range hg_m {
+		fmt.Println(k, v)
+	}
+	/*
+	       x_1 12
+	   x_2 13
+	*/
+
+	v, ok := hg_m["x_1"] //检测哈希中是否存在某个key
+	fmt.Println(v, ok)   //12,true
+
+	//删除某个值
+	delete(hg_m, "x_1")
+	fmt.Println(hg_m) //map[x_2:13] 通常来说语句delete(m, x) 会删除map 中由m[x] 建立的实例
+

@@ -1,0 +1,40 @@
+先建立目录even
+package even //包所在的目录名字
+
+import (
+	"fmt"
+)
+
+func Even(n int) bool { //名称以大写字幕起始的是可导出的，可以在包的外部调用
+	return n%2 == 0
+}
+func odd(n int) bool {
+	return n%2 == 1
+}
+func Test() {
+	fmt.Println("this is test func")
+}
+
+在目录外面执行  go install even
+
+在使用的地方
+
+
+package main
+
+import (
+	"even" //调用自定义的包
+	"fmt"
+)
+
+func main() {
+	var s = 12
+	fmt.Println(even.Even(s))
+	even.Test()
+
+}
+
+
+
+
+

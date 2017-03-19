@@ -1,0 +1,82 @@
+自然，Go 允许定义新的类型，通过保留字type 实现：
+type foo int
+创建了一个新的类型foo 作用跟int 一样。创建更加复杂的类型需要用到struct 保留字。这
+有个在一个数据结构中记录某人的姓名（string）和年龄（int），并且使其成为一个新的
+类型的例子：
+Listing 5.3. Structures
+package main
+import "fmt"
+type NameAge struct {
+name string   不导出
+age int   不导出
+}
+func main() {
+a := new(NameAge)
+a.name = "Pete"; a.age = 42
+fmt.Printf("%v\n", a)
+}
+通常，fmt.Printf("%v\n", a) 的输出是
+&{Pete 42}
+这很棒！Go 知道如何打印结构。如果仅想打印某一个，或者某几个结构中的字段，需要使
+用.<field name>。例如，仅仅打印名字：
+fmt.Printf("%s", a.name)   %s 格式化字符串
+
+
+结构字段
+之前已经提到结构中的项目被称为field。没有字段的结构：struct {}
+或者有四个c字段的：
+c是的，四（4）个。
+62 Chapter 5: 进阶
+struct {
+x, y int
+A *[]int
+F func()
+}
+如果省略字段的名字，可以创建匿名字段，例如：
+struct {
+T1   字段名字是T1
+*T2   字段名字是T2
+P.T3   字段名字是T3
+x, y int   字段名字是x 和y
+}
+注意首字母大写的字段可以被导出，也就是说，在其他包中可以进行读写。字段名以小写字
+幕开头是当前包的私有的。包的函数定义是类似的，
+
+
+方法
+
+方法
+可以对新定义的类型创先函数以便操作，可以通过两种途径：
+1. 创建一个函数接受这个类型的参数。
+func doSomething(in1 *NameAge, in2 int) { /* ... */ }
+（你可能已经猜到了）这是函数调用。
+2. 创建一个工作在这个类型上的函数（参阅在3.1 中定义的接收方）：
+func (in1 *NameAge) doSomething(in2 int) { /* ... */ }
+这是方法调用，可以类似这样使用：
+var n *NameAge
+n.doSomething(2)
+使用函数还是方法完全是由程序员说了算，但是若需要满足接口（参看下一章）就必须使用
+方法。如果没有这样的需求，那就完全由习惯来决定是使用函数还是方法了。
+但是下面的内容一定要留意，引用自[14]：
+如果x 可获取地址，并且&x 的方法中包含了m，x.m() 是(&x).m() 更短的写法。
+根据上面所述，这意味着下面的情况不是错误：
+var n NameAge   不是指针
+n.doSomething(2)
+这里Go 会查找NameAge 类型的变量n 的方法列表，没有找到就会再查找*NameAge 类型的方法
+列表，并且将其转化为(&n).doSomething(2)。
+
+
+// Mutex 数据类型有两个方法，Lock 和Unlock。
+type Mutex struct { /* Mutex 字段*/ }
+func (m *Mutex) Lock() { /* Lock 实现*/ }
+func (m *Mutex) Unlock() { /* Unlock 实现*/ }
+现在用两种不同的风格创建了两个数据类型。
+type NewMutex Mutex;
+type PrintableMutex struct {Mutex }.
+现在NewMutux 等同于Mutex，但是它没有任何Mutex 的方法。换句话说，它的方法是空的。
+但是PrintableMutex 已经从Mutex 继承了方法集合。如同[14] 所说：
+*PrintableMutex 的方法集合包含了Lock 和Unlock 方法，被绑定到其匿名字
+段Mutex。
+
+
+
