@@ -35,6 +35,8 @@ go install github.com/nsf/gocode
         "GOROOT": "$GOROOT"
     }
 }
+
+安装gofmt插件进行格式化代码即可进行开发
 ```
 
 
