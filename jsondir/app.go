@@ -63,4 +63,6 @@ func main() {
 	hgres, err := json.Marshal(hgs)
 	fmt.Println(string(hgres)) //{"serverName":"go \"1.0\"","info":"\"Go 1.0 fefe\""}
 	os.Stdout.Write(hgres)
+	fmt.Println("ok")
+
 }

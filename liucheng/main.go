@@ -23,6 +23,8 @@ func main() {
 		if i%2 == 0 {
 			continue
 		}
+
 		fmt.Println(i)
 	}
+	println("fefe")
 }
