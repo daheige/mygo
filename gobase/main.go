@@ -144,4 +144,14 @@ func main() {
 	// 内建函数make(T, args)与new(T)有着不同的功能，make只能创建slice、map和channel，并且返回一个有初始值(非零)的T类型，而不是*T。
 	// 本质来讲，导致这三个类型有所不同的原因是指向数据结构的引用在使用前必须被初始化
 
+	//调用函数
+	fmt.Println(max(1, 3))
+	fmt.Println(sumAndPro(1, 3)) //4,3
+	pro_x, pro_y := sumAndPro(1, 3)
+	fmt.Println(pro_x, pro_y)
+	restVal(1, 2, 4)
+
+	updateVal(&pro_x) //取地址&操作符号，获取pro_x内存中的地址
+	fmt.Println("pro_x 修改之后是", pro_x)
+	fmt.Println(filterNum([]int{1, 3, 4, 5, 8, 7, 10}, isEven))
 }
