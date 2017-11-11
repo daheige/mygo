@@ -26,5 +26,26 @@ func main() {
 
 		fmt.Println(i)
 	}
-	println("fefe")
+	fmt.Println("fefe")
+
+	flag := 1
+	for flag < 5 {
+		fmt.Println(flag)
+		flag++
+	}
+
+	y := 123
+	switch y {
+	case 12:
+		fmt.Println("y = 12")
+	case 123:
+		fmt.Println("y = 123")
+	default:
+		fmt.Println("haha")
+	}
+
+	arr := []int{1, 2, 4, 5}
+	for item := range arr {
+		fmt.Println(item)
+	}
 }

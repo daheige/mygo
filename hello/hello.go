@@ -9,4 +9,7 @@ func main() {
 	fmt.Println("heige")
 	fmt.Println("fefe")
 	fmt.Println("daheige")
+
+	var num int32 = 12
+	fmt.Println("this num is", num)
 }
