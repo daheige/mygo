@@ -39,6 +39,14 @@ go install github.com/nsf/gocode
 }
 
 安装gofmt插件进行格式化代码即可进行开发
+
+Ctrl+B自动运行go
+    Tools->Build System->New Build System
+    新增一个golang的编译
+     {
+        "shell_cmd": "/usr/local/go/bin/go run $file",
+        "encoding": "utf-8"
+     }
 ```
 
 
