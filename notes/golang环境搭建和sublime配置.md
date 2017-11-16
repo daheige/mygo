@@ -26,6 +26,8 @@ sudo apt-get install git
 go get github.com/nsf/gocode
 3、安装gocode 进入/mygo/src执行如下操作
 go install github.com/nsf/gocode
+把生成的gocode复制到$GOROOT/bin下
+sudo cp /mygo/bin/gocode $GOROOT/bin/
 
 #####gosublime配置####
 安装好sublime text3 并安装gosublime，配置如下
