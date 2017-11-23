@@ -33,8 +33,8 @@ sudo cp /mygo/bin/gocode $GOROOT/bin/
 安装好sublime text3 并安装gosublime，配置如下
 {
     "env": {
-        "GOPATH": "$GOPATH",
-        "GOROOT": "$GOROOT"
+        "GOPATH": "/mygo",
+        "GOROOT": "/usr/local/go"
     },
     "fmt_tab_indent": true,
     "fmt_tab_width": 4
