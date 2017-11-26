@@ -15,6 +15,7 @@ type SubInts struct {
 	TwoInts
 	c int
 	d int
+	e int
 }
 
 //非结构体类型上的方法
