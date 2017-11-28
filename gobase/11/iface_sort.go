@@ -2,69 +2,49 @@ package main
 
 import (
 	"fmt"
+	"gobase/hgIface"
 )
 
-//实现排序的接口
-type hgSorter interface {
-	Len() int
-	Less(i, j int) bool
-	Swap(i, j int)
-}
-
-//实现接口hgSorter
-type IntArray []int
-
-func (this IntArray) Len() int {
-	return len(this)
-}
-
-func (this IntArray) Less(i, j int) bool {
-	return this[i] < this[j]
-}
-
-func (this IntArray) Swap(i, j int) {
-	this[i], this[j] = this[j], this[i]
-}
-
-//实现数据切片的排序，交换位置
-func SortData(data hgSorter) {
-	for pass := 1; pass < data.Len(); pass++ {
-		for i := 0; i < data.Len()-pass; i++ {
-			if data.Less(i+1, i) {
-				data.Swap(i, i+1)
-			}
-		}
+func days() {
+	SunDay := hgIface.Day{0, "SUN", "SunDay"}
+	MonDay := hgIface.Day{1, "MON", "MonDay"}
+	TuesDay := hgIface.Day{2, "TUE", "TuesDay"}
+	WednesDay := hgIface.Day{3, "WED", "WednesDay"}
+	ThursDay := hgIface.Day{4, "THU", "ThursDay"}
+	FriDay := hgIface.Day{5, "FRI", "FriDay"}
+	SaturDay := hgIface.Day{6, "SAT", "Saturday"}
+	data := []*hgIface.Day{&TuesDay, &ThursDay, &WednesDay, &SunDay, &MonDay, &FriDay, &SaturDay}
+	a := hgIface.DayList{data}
+	hgIface.SortData(&a)
+	if !hgIface.IsSorted(&a) {
+		panic("fail")
 	}
-}
-
-func IsSorted(data hgSorter) bool {
-	n := data.Len()
-	for i := n - 1; i > 0; i-- {
-		if data.Less(i, i-1) {
-			return false
-		}
+	for _, d := range data {
+		fmt.Printf("%s ", d.LongName)
 	}
-	return true
-}
-
-func SortInts(a []int) {
-	SortData(IntArray(a))
-}
-
-func IntsAreSorted(a []int) bool {
-	return IsSorted(IntArray(a))
+	fmt.Printf("\n")
 }
 
 func main() {
 	data := []int{1, 2, 3, 89, -90, -1, 2}
-	a := IntArray(data)
-	SortData(a)
+	a := hgIface.IntArray(data)
+	hgIface.SortData(a)
 	fmt.Println(a)
 
 	//实现整数切片排序
 	b := []int{1, 2, 3, 34, 12}
-	SortInts(b)
+	hgIface.SortInts(b)
 	fmt.Println(b)
 
-	fmt.Println(IntsAreSorted(b))
+	fmt.Println(hgIface.IntsAreSorted(b))
+
+	//实现字符串切片排序
+	s := []string{"a", "bc", "ab", "de", "cd"}
+	hgIface.SortStrings(s)
+	fmt.Println(s)
+	fmt.Println(hgIface.StringsAreSorted(s))
+
+	//实现星期排序
+	days()
+
 }
