@@ -1,3 +1,5 @@
 golang.org/
 github.com/
 blog/test/*
+gobase/**/*.md
+gobase/**/*.csv
