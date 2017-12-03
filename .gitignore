@@ -3,3 +3,5 @@ github.com/
 blog/test/*
 gobase/**/*.md
 gobase/**/*.csv
+gobase/**/*.json
+
