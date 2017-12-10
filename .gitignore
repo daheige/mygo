@@ -4,4 +4,4 @@ blog/test/*
 gobase/**/*.md
 gobase/**/*.csv
 gobase/**/*.json
-
+**.test
