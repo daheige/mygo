@@ -14,7 +14,7 @@ func sayHello(res http.ResponseWriter, req *http.Request) {
 func main() {
 	fmt.Println("request start")
 	http.HandleFunc("/", sayHello) //监听事件
-	err := http.ListenAndServe("localhost:8080", nil)
+	err := http.ListenAndServe("localhost:8081", nil)
 	if err != nil {
 		log.Fatal("listen error", err.Error())
 	}
