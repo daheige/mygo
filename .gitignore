@@ -1,5 +1,7 @@
 golang.org/
 github.com/
+gopkg.in/
+gopkg.in/*
 blog/test/*
 gobase/**/*.md
 gobase/**/*.csv
