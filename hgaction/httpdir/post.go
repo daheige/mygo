@@ -49,6 +49,29 @@ func main() {
 		return
 	}
 
-	fmt.Printf("%s", r)
+	// fmt.Printf("%s", r)
+	//将结果解析到interface
+	var f interface{}
+	json.Unmarshal(r, &f)
+	fmt.Println(f)
+	//类型断言访问
+	m := f.(map[string]interface{})
+	for k, v := range m {
+		switch vv := v.(type) {
+		case int:
+			fmt.Println(k, "is int", vv)
+		case string:
+			fmt.Println(k, "is string", vv)
+		case float64:
+			fmt.Println(k, "is float64", vv)
+		case map[string]interface{}:
+			fmt.Println(k, "is array")
+			for i, u := range vv {
+				fmt.Println(i, u)
+			}
+		default:
+			fmt.Println(k, "is of a type unknown")
+		}
+	}
 
 }
