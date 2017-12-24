@@ -41,6 +41,7 @@ func main() {
 		log.Fatal(err)
 		return
 	}
+	defer res.Body.Close() //请求结束后，关闭连接
 
 	r, err := ioutil.ReadAll(res.Body)
 	if err != nil {
