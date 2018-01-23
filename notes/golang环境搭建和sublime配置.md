@@ -40,7 +40,19 @@ sudo cp /mygo/bin/gocode $GOROOT/bin/
     "fmt_tab_width": 4
 }
 
-安装gofmt插件进行格式化代码即可进行开发
+安装gofmt插件进行格式化代码即可进行开发，配置gofmt
+{
+  "cmds": [
+    ["gofmt", "-e", "-s"]
+  ],
+  "format_on_save": true,
+  "fmt_tab_indent": true,
+  "fmt_tab_width": 4,
+  "tab_size": 4,
+  "translate_tabs_to_spaces": false,
+  "trim_automatic_white_space": true,
+  "trim_trailing_white_space_on_save": true,
+}
 
 Ctrl+B自动运行go
     Tools->Build System->New Build System
