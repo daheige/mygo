@@ -51,7 +51,7 @@ sudo cp /mygo/bin/gocode $GOROOT/bin/
   "tab_size": 4,
   "translate_tabs_to_spaces": false,
   "trim_automatic_white_space": true,
-  "trim_trailing_white_space_on_save": true,
+  "trim_trailing_white_space_on_save": true
 }
 
 Ctrl+B自动运行go
