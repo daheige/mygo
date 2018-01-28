@@ -8,3 +8,4 @@ gobase/**/*.csv
 gobase/**/*.json
 **.test
 *.csv
+goweb/**/*.md
