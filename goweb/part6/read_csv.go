@@ -36,6 +36,7 @@ func main() {
 
 		id, _ := strconv.ParseInt(value[0], 0, 0)
 		line := Post{Id: int(id), Name: value[1], Job: value[2]}
+		fmt.Println("读取的数据是", line)
 		posts = append(posts, line)
 	}
 
