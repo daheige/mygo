@@ -1,25 +1,23 @@
-�ļ���Ŀ¼
-��Go �У� ���ļ���ȡ�� ��д�룩 �Ƿǳ����׵ġ�����ֻ��Ҫʹ��os ���Ϳ��Դ���
-��/etc/passwd �ж�ȡ����
-
-
-Listing 8.4. ��Go �д���Ŀ¼
+文件和目录
+在Go 中， 从文件读取（ 或写入） 是非常容易的。程序只需要使用os 包就可以从文
+件/etc/passwd 中读取数据
+Listing 8.4. 在Go 中创建目录
 if f, e := os.Stat("name"); e != nil {
 os.Mkdir("name", 0755)
 } else {
 // error
 }
-ǰ��ĳ��������ļ�����������ͨ������»�ϣ��һ��һ�еĶ�ȡ�������Ƭ��չʾ����
-��ʵ�֣�
-92 Chapter 8: ͨѶ
+前面的程序将整个文件读出，但是通常情况下会希望一行一行的读取。下面的片段展示了如
+何实现：
+92 Chapter 8: 通讯
 f, _ := os.Open("/etc/passwd")
 defer f.Close()
 r := bufio.NewReader(f)
-s, ok := r.ReadString('\n') {   �������ж�ȡһ��
-// ... |   s �������ַ�����ͨ��string ���Ϳ��Խ�����|
-�����в���
-���������еĲ����ڳ�����ͨ���ַ���slice os.Args ��ȡ�������os ���ɡ�flag �����ž���
-�Ľӿڣ�ͬ���ṩ�˽�����ʶ�ķ��������������һ��DNS ��ѯ���ߣ�
+s, ok := r.ReadString('\n') {   从输入中读取一行
+// ... |   s 保存了字符串，通过string 包就可以解析它|
+命令行参数
+来自命令行的参数在程序中通过字符串slice os.Args 获取，导入包os 即可。flag 包有着精巧
+的接口，同样提供了解析标识的方法。这个例子是一个DNS 查询工具：
 dnssec := flag.Bool("dnssec", false, "Request DNSSEC records")
 0.
 port := flag.String("port", "53", "Set the query port") 1.
@@ -30,31 +28,22 @@ flag.PrintDefaults()
 3.
 }
 flag.Parse() 4.
-0. ����bool ��ʶ��-dnssec������������ָ�룬����package �޷�������ֵ��
-1. ���Ƶģ�portѡ�
-2. �򵥵��ض���Usage �������е����£�
-3. ָ����ÿ����ʶ��PrintDefaults �����������Ϣ��
-4. ������ʶ������������
-ִ������
-exec ���к�������ִ���ⲿ�����Ҳ����Go ����Ҫ��ִ������ķ�����ͨ������һ����
-������������*exec.Cmd �ṹ��ʹ�á�
-ִ��ls -l��
+0. 定义bool 标识，-dnssec。变量必须是指针，否则package 无法设置其值；
+1. 类似的，port选项；
+2. 简单的重定义Usage 函数，有点罗嗦；
+3. 指定的每个标识，PrintDefaults 将输出帮助信息；
+4. 解析标识，并填充变量。
+执行命令
+exec 包有函数可以执行外部命令，这也是在Go 中主要的执行命令的方法。通过定义一个有
+着数个方法的*exec.Cmd 结构来使用。
+执行ls -l：
 import "exec"
 cmd := exec.Command("/bin/ls", "-l")
 err := cmd.Run()
-�������еı�׼����л����Ϣͬ���򵥣�
+从命令行的标准输出中获得信息同样简单：
 import "exec"
 cmd := exec.Command("/bin/ls", "-l")
-buf, err := cmd.Output()   buf ��һ��[]byte
-
-
-
-
-
-
-
-
-
+buf, err := cmd.Output()   buf 是一个[]byte
 demo:
 package main
 
@@ -63,24 +52,20 @@ import (
 )
 
 func main() {
-	buf := make([]byte, 1024) //ÿ�ζ�ȡ1024�ֽ�
+	buf := make([]byte, 1024) //每次读取1024字节
 	f, _ := os.Open("./test.txt")
-	defer f.Close() //�ں���ִ����Ϻ�ر��ļ�
+	defer f.Close() //在函数执行完毕后关闭文件
 
 	for {
-		n, _ := f.Read(buf) //ÿ�ζ�ȡ1024�ֽ�
+		n, _ := f.Read(buf) //每次读取1024字节
 		if n == 0 {
-			break //�����ļ�ĩβ
+			break //到达文件末尾
 		}
-		os.Stdout.Write(buf[:n]) //����ȡ������д��Stdout��׼���
+		os.Stdout.Write(buf[:n]) //将读取的内容写入Stdout标准输出
 	}
 
-	//����Ŀ¼os.Mkdir
+	//创建目录os.Mkdir
 	if _, ok := os.Stat("test"); ok != nil {
 		os.Mkdir("name", 0755)
 	}
 }
-
-
-
-

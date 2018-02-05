@@ -31,4 +31,5 @@ func main() {
 	fmt.Println(year, month, day)
 	h, m, s := t1.Clock() //时分秒
 	fmt.Println(h, m, s)
+	fmt.Println(t1.Month(), time.March)
 }
