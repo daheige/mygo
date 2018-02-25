@@ -1,4 +1,4 @@
-package controllers
+package controllers //同一目录下的包名一样
 
 import (
 	"github.com/astaxie/beego"
