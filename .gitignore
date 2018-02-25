@@ -15,3 +15,4 @@ hgbee/**/*.tar.gz
 *.memprof
 test/*
 test/
+hgbee/hgbee
