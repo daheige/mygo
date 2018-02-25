@@ -9,3 +9,9 @@ gobase/**/*.json
 **.test
 *.csv
 goweb/**/*.md
+hgbee/*.memprof
+hgbee/**/*.tar.gz
+*.tar.gz
+*.memprof
+test/*
+test/

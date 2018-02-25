@@ -1,0 +1,11 @@
+body{
+    padding: 0;
+    margin: 0;
+    font-size: 12.5px;
+}
+
+.test{
+    color: red;
+    margin: 10px;
+    background: #eee;
+}
