@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/astaxie/beego"
 )
 
@@ -15,5 +16,6 @@ type HomeController struct {
 func (this *HomeController) Get() {
 	this.Data["name"] = "fefessss"
 	this.TplExt = "html"
+	fmt.Println(beego.AppConfig.String("mysqluser")) //root可以动态获取app.conf的配置项
 	this.TplName = "Home/index.html"
 }
