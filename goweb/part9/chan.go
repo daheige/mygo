@@ -10,7 +10,7 @@ func main() {
 	w1, w2 := make(chan bool), make(chan bool)
 	go showNum1(w1)
 	go showWord(w2)
-	//在w1,w2未放入true之前，一直是阻塞，当goroutine执行完毕后，true才放入
+	//在w1,w2未放入true之前，一直是阻塞状态，当goroutine执行完毕后，true才放入
 	//当取出w1,w2后，main的阻塞才得到释放
 	a := <-w1
 	b := <-w2
