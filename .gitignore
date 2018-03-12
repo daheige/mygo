@@ -18,3 +18,4 @@ test/
 hgbee/hgbee
 goweb/gin/*.jpg
 goweb/gin/*.jpeg
+goweb/gin/**/*.jpeg
