@@ -19,3 +19,6 @@ hgbee/hgbee
 goweb/gin/*.jpg
 goweb/gin/*.jpeg
 goweb/gin/**/*.jpeg
+u2pppw/
+u2pppw/*
+*.out
