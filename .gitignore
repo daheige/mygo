@@ -22,3 +22,4 @@ goweb/gin/**/*.jpeg
 u2pppw/
 u2pppw/*
 *.out
+*.log
