@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	"goweb/slog"
 	"strconv"
 	"time"
-	// "goweb/slog"
 	// "os"
 	// "path/filepath"
 )
@@ -21,7 +21,6 @@ func main() {
 	// var t time.Time
 	s := strconv.FormatInt(time.Now().Unix(), 10)
 	fmt.Println(s)
-	fmt.Println((time.Now().Unix()))
 	fmt.Println(time.Now().Format("2006_01_02_15_04"))
 	// res := filepath.Dir("/runtime/abc/index.php") //获取目录名
 	// str := filepath.Base("/etc/hosts/ab") //获取文件名
@@ -31,8 +30,10 @@ func main() {
 	// file, err := os.Stat("hg_test.log")
 	// fmt.Println(err)
 	// fmt.Println(file.Size())
-	// slog.Info("tess", "test/hg_test")
 	// slog.Debug("ssss")
+	slog.InitLogSize(1024)
+	slog.Info("tess232", "test/hg_test")
+	// time.Sleep(2 * time.Second)
 
 	fmt.Println(kb, mb, gb, tb, pb)
 	// slog.Error("sss123", "hg_error")
