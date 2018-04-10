@@ -23,3 +23,5 @@ u2pppw/
 u2pppw/*
 *.out
 *.log
+.vscode/
+.vscode/*
