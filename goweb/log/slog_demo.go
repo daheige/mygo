@@ -37,4 +37,5 @@ func main() {
 
 	fmt.Println(kb, mb, gb, tb, pb)
 	// slog.Error("sss123", "hg_error")
+	fmt.Println("fefefe")
 }
