@@ -28,7 +28,7 @@ func upload(w http.ResponseWriter, r *http.Request) {
 
 func demo(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Location", "http://www.baidu.com") //设置请求头
-	w.WriteHeader(302)                                 //重定向设置,调用WriterHeader后不许在对首部写入内容
+	w.WriteHeader(302)                                 //重定向设置,调用WriterHeader后不许再对首部写入内容
 }
 
 func jsonExample(w http.ResponseWriter, r *http.Request) {
