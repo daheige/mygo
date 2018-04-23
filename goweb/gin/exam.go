@@ -33,6 +33,8 @@ func main() {
 	})
 	//默认查询字符串 http://localhost:8080/info?name=ssss
 	r.GET("/info", func(ctx *gin.Context) {
+		// ctx.String(200, "fefefe")
+
 		name := ctx.DefaultQuery("name", "daheige") //设置默认参数
 		ctx.String(200, "your name is %s", name)
 	})
