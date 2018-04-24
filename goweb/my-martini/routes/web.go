@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/render" //模板渲染
+	"goweb/my-martini/controller"
 	"goweb/my-martini/diydata"
 	"net/http"
 )
@@ -61,4 +62,10 @@ func WebRoute(m *martini.ClassicMartini) {
 			"data":    []string{"php", "go", "nodejs"},
 		})
 	})
+
+	// http: //localhost:3000/hg-index
+	//第二个参数必须是一个可调用的函数
+	c := &controller.IndexController{}
+	m.Get("/hg-index", c.Index)
+	m.Get("/hg-test", c.Test)
 }
