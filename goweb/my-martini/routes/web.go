@@ -3,6 +3,7 @@ package routes
 import (
 	"encoding/json"
 	"github.com/go-martini/martini"
+	"github.com/martini-contrib/render" //模板渲染
 	"goweb/my-martini/diydata"
 	"net/http"
 )
@@ -17,6 +18,7 @@ func WebRoute(m *martini.ClassicMartini) {
 	})
 
 	//兼容http的rw,req签名的处理函数
+	//martini 具有http res,req签名方法ServeHTTP
 	m.Get("/test", func(res http.ResponseWriter, req *http.Request) {
 		res.Header().Set("Content-Type", "application/json") //设置header头
 
@@ -44,19 +46,19 @@ func WebRoute(m *martini.ClassicMartini) {
 		return "hello," + params["name"]
 	})
 
-	//http://localhost:3000/api/sss
-	//路由分组,添加前缀
-	m.Group("/api", func(r martini.Router) {
-		r.Get("/:id", func(params martini.Params) string {
-			return params["id"] + "fefefe"
-		})
-		r.Get("/info", func(params martini.Params) string {
-			return "123456,fefefe"
-		})
-	}, apiMiddleWare) //为分组路由添加中间件
+	//模板渲染
+	m.Get("/foo", func(r render.Render) {
+		r.HTML(200, "hello", "daheige")
+	})
+	m.Get("/hg-foo", func(r render.Render) {
+		r.HTML(200, "foo", "heige313")
+	})
 
-}
-
-func apiMiddleWare(res http.ResponseWriter, req *http.Request) {
-	res.Header().Set("X-token", "123456") //设置header头
+	m.Get("/json", func(r render.Render) {
+		r.JSON(200, map[string]interface{}{
+			"code":    200,
+			"message": "success",
+			"data":    []string{"php", "go", "nodejs"},
+		})
+	})
 }
