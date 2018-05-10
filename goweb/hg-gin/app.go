@@ -2,23 +2,14 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"goweb/hg-gin/application/routes"
 )
 
 func main() {
-	app := gin.New()
+	router := gin.New()
 
 	//待完成
+	routes.WebRoute(router)
 
-	app.GET("/", func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{
-			"code":    200,
-			"message": "welcome hg-gin page",
-			"data": []string{
-				"php",
-				"go",
-			},
-		})
-	})
-
-	app.Run(":8080")
+	router.Run(":8080")
 }
