@@ -18,6 +18,18 @@ var (
 	n = true
 )
 
+//枚举
+const (
+	a1 = iota
+	b1
+	c1
+)
+
+//遇到const,重置为0
+const (
+	p = iota
+)
+
 func main() {
 	fmt.Println(a, b)
 	fmt.Printf("a type is %T,b type is %T\n", a, b) //int,int类型
@@ -25,4 +37,6 @@ func main() {
 	fmt.Printf("c type is %T d type is %T\n", c, d)
 
 	fmt.Println(m, n)
+	fmt.Println(a1, b1, c1, p) //0 1 2 0
+
 }
