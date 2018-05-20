@@ -44,3 +44,9 @@
     9 增加了 JSON 映射特性；
 
         语言的活力来自于与时俱进。当前，JSON 的流行有其充分的理由。很多『现代化』的语言都内置了对 JSON 的支持，比如 Go、PHP 等。而 C++ 这种看似保罗万象的学院派语言，因循守旧、故步自封，以致于现出了式微的苗条。
+
+# double stream
+    http://lib.csdn.net/article/go/68547
+
+# grpc action
+    https://smallnest.gitbooks.io/go-rpc-programming-guide/content/part1/grpc.html
