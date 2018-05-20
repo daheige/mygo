@@ -12,7 +12,8 @@ package helloworld;
 // service
 service Greeter {
   // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply) {}
+  rpc SayHello (HelloRequest) returns (HelloReply) {};
+  rpc GetUserInfo(GetUserReq) returns (GetUserReply){}; //get user info
 }
 
 // The request message containing the user's name.
@@ -43,3 +44,20 @@ enum Ua{
     Pc = 5;
     Wx = 6;
 }
+
+message User {
+    int64 uid = 1;
+    string job = 2;
+    string name = 3;
+    int32 age = 4;
+}
+
+message GetUserReq{
+    int64 uid = 1;
+    int32 level = 2;
+}
+
+message GetUserReply{
+    User userInfo = 1;
+}
+

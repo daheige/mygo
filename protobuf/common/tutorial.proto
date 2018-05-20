@@ -24,3 +24,17 @@ message Person {
 message AddressBook {
   repeated Person people = 1;
 }
+
+message PersonReq {
+  int32 a =1;
+  int64 b = 2;
+}
+message PersonReply{
+  Person person =1;
+  bytes a =2;
+}
+
+service my{
+  rpc checkUa (PersonReq) returns (PersonReply);
+  rpc check (Person) returns (AddressBook);
+}

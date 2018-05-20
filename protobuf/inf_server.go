@@ -4,11 +4,12 @@ package main
 import (
 	"errors"
 	"fmt"
-	"golang.org/x/net/context"
-	"google.golang.org/grpc"
 	"log"
 	"net"
 	pb "protobuf/helloworld"
+
+	"golang.org/x/net/context"
+	"google.golang.org/grpc"
 )
 
 const (
@@ -26,6 +27,18 @@ func (s *server) SayHello(ctx context.Context, input *pb.HelloRequest) (*pb.Hell
 	}
 
 	return &pb.HelloReply{Message: "Hello " + input.Name}, nil
+}
+
+func (s *server) GetUserInfo(ctx context.Context, input *pb.GetUserReq) (*pb.GetUserReply, error) {
+	fmt.Println("get user info input data: ", input)
+	return &pb.GetUserReply{
+		UserInfo: &pb.User{
+			Uid:  1,
+			Name: "daheige",
+			Job:  "golang",
+			Age:  28,
+		},
+	}, nil
 }
 
 func (s *server) CheckUa(ua int32) (errUa pb.ErrorUa) {
