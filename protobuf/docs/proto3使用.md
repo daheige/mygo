@@ -135,15 +135,30 @@
 
 # 字段修饰符
     字段修饰符：
-    required: 值不可为空
+    required: 值不可为空 proto3已删除
     optional: 可选字段 proto3字段规则移除了 “required”，并把 optional 改名为 singular
     singular: 符合语法规则的消息包含零个或者一个这样的字段（最多一个）
     repeated: 一个字段在合法的消息中可以重复出现一定次数（包括零次）。
              重复出现的值的次序将被保留。在proto3中，重复出现的值类型字段默认采用压缩编码。
              你可以在这里找到更多关于压缩编码的东西： Protocol Buffer Encoding。
-    默认值：  optional PhoneType type = 2 [default = HOME];
-    proto3中修饰符是不可显示指定的，因为默认都是optional
+    proto2默认值：  optional PhoneType type = 2 [default = HOME];
+    proto3字段default标记不能使用了
 
+# proto3中修饰符是不可显示指定的，因为默认都是optional
+
+# 生成代码中的结构体字段类型变化
+    对于proto2的文件, 生成的go代码中的结构体依然使用类型指针作为默认存储, 兼容老的系统
+
+    对于proto3的文件, 生成的go代码中的结构体直接使用字段作为默认存储, 不再使用GetXXX来作为字段值访问, 赋值时也无需使用proto.类型() 函数进行指针类型字段值创建.
+
+    这个调整很是方便, 但丢失了optional判断功能, 对应C++里就是hasXXX的功能,
+    不过好歹这个逻辑现在用的不多了
+
+    这个修改大概也是配合json序列化来做的, go默认的json序列化时, 无法使用proto2生成的结构体的, 因为都是指针,无法赋值..
+
+# proto3 optional不需要了
+    只保留repeated标记数组类型, optional和required都被去掉了
+    实际使用证明, required的设计确实是蛋疼, C++的调试版会弹出assert,release版和optional也没啥区别
 # 字段默认值
     1. strings, 默认值是空字符串（empty string）
     2. bytes, 默认值是空bytes（empty bytes）
@@ -152,6 +167,26 @@
     5. enums, 枚举默认值是第一个枚举值（value必须为0）
     6. message fields, the field is not set. Its exact value is langauge-dependent. See the generated code guide for details.
     7. repeated fields，默认值为empty，通常是一个空list
+
+# pb.go源码的一些事项如下：
+
+      + 变量名称采用骆驼命名法，如camel_case被编译为CamelCase.
+
+      + 不会为field生成set方法，直接为成员赋值即可。 
+
+      + 没有setter，但是有getter方法，如果field被设置了值，则返回设置的值。如果没有设置，则返回默认值。如果连message都没有收到，就返回nil。
+
+      + struct的所有成员初始值都是零值，如果要给其成员赋值，就必须在序列化之前。序列化后再修改struct的成员值，没有任何意义。
+
+      + struc的 Reset()会将struct的所有field的值清零。
+
+      + 非 repeated 的field成员的类型都是指针类型，当它为空时，意味着其值为空。如"required field int32 f "或者"optional field int32 f "被编译后的类型都是F *int32。
+
+      + Repeated 类型的fields被编译后则是slices.
+
+      + 与其他语言一样，go会生成Helper函数，以便于设置field的值。针对获取值得Helper函数不再建议使用。                        msg.Foo = proto.String("hello") // set field
+
+      + 一个field如果有default值，则这个值会被编译为一个常量，其名称的规则为Default_StructName_FieldName，而且相关的Get方法会默认返回这个值。不见直接用这些const值。
 
 # install go proto
     go get -u github.com/golang/protobuf/proto

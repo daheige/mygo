@@ -45,8 +45,66 @@
 
         语言的活力来自于与时俱进。当前，JSON 的流行有其充分的理由。很多『现代化』的语言都内置了对 JSON 的支持，比如 Go、PHP 等。而 C++ 这种看似保罗万象的学院派语言，因循守旧、故步自封，以致于现出了式微的苗条。
 
+# proto2字段修饰符
+    required：字段必填。
+    optional: 字段选填，不填就会使用默认值，默认数值类型的默认值为0，string类型为空字符串，枚举类型为第一个枚举值。
+    repeated: 数组类型，可以放入多个类型实例,会转换为slice
+    enum: 枚举类型,会转换为常量在常量前面加上enum的名称
+    message: 会转换为struct结构体,在一个proto文件中可以存放多个message
+             message内部也可以定义message，外部如需调用需要指明对应的层级关系
+# import关键字
+    //引入外部proto文件
+    import "other.proto";
+    //引入外部proto文件，并让引入了该文件的proto文件也能访问被引入类型。
+    import public "other.proto";
+
+# enum枚举类型
+    protobuf可以定义枚举类型：
+    enum EnumType {
+        TYPEA = 0;
+        TYPEB = 1;
+        TYPEC = 2;
+    }
+    enum的每行字段都是一个枚举值，等号后面跟的是实际值，默认实际值是不能一样的，但只需要增加一个option配置就可以设置一样的值：
+
+    enum EnumType {
+    option allow_alias = true;
+    TYPEA = 0;
+    TYPEB = 0;
+    TYPEC = 2;
+    }
+
+    proto3 enum可以有alias。enum的值不能为负数。
+
+    enum EnumAllowingAlias {
+        option allow_alias = true;
+
+        UNKNOWN = 0;
+
+        STARTED = 1;
+
+        RUNNING = 1;
+
+    }
+
+# proto3 枚举默认值一定是0
+
+# message结构体(自定义类型)
+    自定义的message类型：
+
+    message MessageType {
+        repeated string str = 1;
+    }
+
+    //proto2语法 可选
+    message CompositeType {
+        optional MessageType message = 1;
+    }
 # double stream
     http://lib.csdn.net/article/go/68547
 
 # grpc action
     https://smallnest.gitbooks.io/go-rpc-programming-guide/content/part1/grpc.html
+
+# 参考
+    https://blog.csdn.net/menggucaoyuan/article/details/43602915

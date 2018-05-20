@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package myexam;
+
+// protoc3 --go_out=. exam_v3.proto
+// proto3支持 map 只能放在message中,作为结构体的一个属性存在
+// required和optional都不要了，默认就是optional），删除默认值（不明白）。
+// 谷歌生成这些改变视为了更好的兼容Android Java、Objective C和Go语言
+message Myfoo {
+    map<string, string> bar = 1;
+    repeated string info =2; //proto3保留了repeated关键字
+}
+
+enum Ua {
+    UNKNOWN = 0; //enum第一个字段必须是0开始
+    WEB = 10;
+    H5  = 20;
+    IOS =30;
+    ANDROID = 40;
+    WX = 50;
+}

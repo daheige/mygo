@@ -1,0 +1,48 @@
+syntax = "proto2";
+//protoc --go_out=. hgmap.proto
+package dahei;
+
+//proto3中字段默认是可选的,required已被移除
+message Person {
+    optional int32 id =1;
+    optional string name = 2;
+}
+
+//非repeated的field成员的类型都是指针类型，当它为空时，意味着其值为空。
+// 如"required field int32 f "或者"optional field int32 f "被编译后的类型都是F *int32
+message UserInfo
+{
+    required int32     id = 1;  // ID
+    required string    name = 2;  // str
+    optional int32     options = 3;  //optional field
+    optional int32 type = 4 [default=77];
+    repeated Person subUser = 5; //SubUser []*Person 多个类型会转换成slice
+    
+}
+
+enum FOO {
+    X = 17;
+    Y = 18;
+};
+
+message Myfoo {
+    map<string, string> bar = 1;
+}
+
+/**
+type FOO int32
+
+const (
+    FOO_X FOO = 17
+    FOO_Y FOO = 18
+)
+
+var FOO_name = map[int32]string{
+    17: "X",
+    18: "Y",
+}
+var FOO_value = map[string]int32{
+    "X": 17,
+    "Y": 18,
+}
+*/
