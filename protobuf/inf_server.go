@@ -2,6 +2,7 @@ package main
 
 // server.go
 import (
+	"errors"
 	"fmt"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
@@ -18,8 +19,29 @@ const (
 type server struct{}
 
 //method
-func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	return &pb.HelloReply{Message: "Hello " + in.Name}, nil
+func (s *server) SayHello(ctx context.Context, input *pb.HelloRequest) (*pb.HelloReply, error) {
+	fmt.Println("request data:", input)
+	if errUa := s.CheckUa(input.Ua); errUa.Code != 200 {
+		return nil, errors.New(errUa.Message)
+	}
+
+	return &pb.HelloReply{Message: "Hello " + input.Name}, nil
+}
+
+func (s *server) CheckUa(ua int32) (errUa pb.ErrorUa) {
+	if ua == 0 {
+		errUa.Code = 500
+		errUa.Message = "ua error"
+		return
+	}
+	if _, ok := pb.Ua_name[ua]; !ok {
+		errUa.Code = 500
+		errUa.Message = "ua error2"
+		return
+	}
+
+	errUa.Code = 200
+	return
 }
 
 func main() {
@@ -39,6 +61,6 @@ func main() {
 //go run inf_server.go
 // service has run in  :50051
 
-// go run inf_client.go  daheige
-// $ go run inf_client.go  daheige321
+// go run inf_client.go  daheige 1
+// $ go run inf_client.go  daheige321 2
 // 2018/05/19 23:00:30 Greeting: Hello daheige321

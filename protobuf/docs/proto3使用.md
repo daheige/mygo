@@ -115,19 +115,6 @@
         Objective-C, 每一个.proto 文件可以生成一个 pbobjc.h 和一个pbobjc.m 文件
         C#, 每一个.proto文件可以生成一个.cs文件.
 
-# 值类型
-    值类型的消息字段可以是一下类型中的一种——这个表格展示了可以在.proto文件中使用的类型，以及自动生成的相应语言的类型：
-        .proto Type	            说明	                        C++Type    Java Type   Python Type[2]  Go Type
-        double		                                            double	    double	    float	        float64
-        float		                                            float	    float	    float	        float32
-        int32	    使用可变长度编码。对负数进行编码时比较低效
-                    如果你的字段要使用负数值，请使用sint32来代替。	   int32	    int	        int	            int
-
-        int64	    使用可变长度编码。对负数进行编码时比较低效
-                    如果你的字段要使用负数值，请使用sint64来代替。	   int64	    long	    int/long[3]	    int64
-
-        uint32	    使用可变长度编码	                           uint32	   int[1]	    int/long[3]	    uint32
-        uint64	    使用可变长度编码	                           uint64	   long[1]	    int/long[3]	    uint64
 # 官方字段类型对应
     .proto	    C++	        Java	    Python	        Go	    
     double	    double	    double	    float	        float64	
@@ -155,6 +142,8 @@
              重复出现的值的次序将被保留。在proto3中，重复出现的值类型字段默认采用压缩编码。
              你可以在这里找到更多关于压缩编码的东西： Protocol Buffer Encoding。
     默认值：  optional PhoneType type = 2 [default = HOME];
+    proto3中修饰符是不可显示指定的，因为默认都是optional
+
 # 字段默认值
     1. strings, 默认值是空字符串（empty string）
     2. bytes, 默认值是空bytes（empty bytes）
@@ -187,4 +176,5 @@
 
 # go grpc demo
     https://studygolang.com/articles/4370
+    cmd: protoc --go_out=plugins=grpc:. helloworld.proto
 
