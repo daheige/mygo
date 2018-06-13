@@ -1,0 +1,28 @@
+/**
+install npm package
+    npm install google-protobuf --save
+    npm install grpc --save
+*/
+var grpc = require('grpc');
+const PROTO_PATH = './proto/inf.proto';
+
+const port = '50051';
+const host = "127.0.0.1";
+
+const proto = grpc.load(PROTO_PATH).helloworld;
+// console.log(proto)
+
+//Greeter service name
+const client = new proto.Greeter(host + ":" + port, grpc.credentials.createInsecure());
+// console.log(client)
+// console.log(typeof proto.HelloRequest);
+
+//执行rpc调用
+var request = new proto.HelloRequest();
+request.setName("daheige")
+request.setUa(2)
+client.SayHello(request, function(err, data) {
+    if (err) console.log(err)
+    console.log("reply data : ", data)
+    console.log(data.message)
+});
