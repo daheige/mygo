@@ -2,6 +2,12 @@
 install npm package
     npm install google-protobuf --save
     npm install grpc --save
+#run go service
+$ go run inf_server.go
+service has run in  :50051
+request data: name:"daheige" ua:2
+
+$ node hello_client.js
 */
 var grpc = require('grpc');
 const PROTO_PATH = './proto/inf.proto';
@@ -25,4 +31,5 @@ client.SayHello(request, function(err, data) {
     if (err) console.log(err)
     console.log("reply data : ", data)
     console.log(data.message)
+    grpc.closeClient(client);
 });
