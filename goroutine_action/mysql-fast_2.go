@@ -37,7 +37,9 @@ func main() {
 	var wg sync.WaitGroup //信号计数器,保证协程执行完毕
 	for i := 1; i <= 10; i++ {
 		wg.Add(1)
-		go countNum(i, stmt, &wg) //这里必须传递wg的指针,在协程内部执行才可以改变wg计数器,否则是wg的一个副本
+		//这里必须传递wg的指针,在协程内部执行才可以改变wg计数器
+		//否则wg传递过去的是一个副本,无法保证协程执行
+		go countNum(i, stmt, &wg)
 	}
 	wg.Wait() //等待协程执行完毕
 	elapsed := time.Since(start)
