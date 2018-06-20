@@ -34,7 +34,7 @@ func main() {
 	done := make(chan bool) //采用done无缓冲通道
 	// 开启10个协程
 	for i := 1; i <= 10; i++ {
-		go countNum(i, stmt, done) //这里必须传递wg的指针,在协程内部执行才可以改变wg计数器,否则是wg的一个副本
+		go countNum(i, stmt, done)
 	}
 
 	//当通道已经有值,就立即取出来(在未将值放入通道中,这里一直会阻塞,等待有值就取出来)
