@@ -3,6 +3,7 @@
 // str和bytes共用一片内存
 // str := (*string)(unsafe.Pointer(&bytes))
 // 效率高
+// 执行命令go test -test.bench=".*" -count=5，可以看到如下结果： （使用-count可以指定执行多少次）
 package hello
 
 import (
