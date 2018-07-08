@@ -36,4 +36,5 @@ go-by-example/*
 .idea/*
 google.golang.org/
 google.golang.org/*
-
+concurrency-in-go/
+concurrency-in-go/*
