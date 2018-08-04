@@ -16,6 +16,7 @@ func main() {
 	fmt.Println(c)
 }
 
+//hmac-sha256
 func getHmacCode(s string) string {
 	h := hmac.New(sha256.New, []byte("ourkey"))
 	io.WriteString(h, s)
