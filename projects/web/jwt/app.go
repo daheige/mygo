@@ -6,11 +6,14 @@ import (
 
 var Sign string
 
-type Jwt struct {
-}
+type Jwt struct{}
 
 func init() {
     Sign = "daheige"
+}
+
+func New() *Jwt {
+    return &Jwt{}
 }
 
 func (j *Jwt) Test(str string) {
