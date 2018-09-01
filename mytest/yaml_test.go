@@ -1,9 +1,9 @@
 package mytest
 
 import (
-	"common"
 	"fmt"
 	"testing"
+	"thinkgo/common"
 )
 
 type NginxConf struct {
@@ -45,7 +45,7 @@ func TestYamlRead(t *testing.T) {
 }
 
 /**
-$ go test -v
+$ go test -v -test.run TestYamlRead
 === RUN   TestYamlRead
 读取的内容: map[Database:map[Default:map[Port:3306 User:root Pwd:1234 Database:test Host:127.0.0.1] Default2:map[Host:127.0.0.1 Port:3306 User:root Pwd:1234 Database:test]] NginxConf:map[MaxFile:65355 Host:127.0.0.1 Port:3309] Redis:map[Default:map[Host:127.0.0.1 Port:6379] Order:map[Host:127.0.0.1 Port:6379]] App_key:1234fessfe App_env:testing Count:1234]
 1234fessfe
