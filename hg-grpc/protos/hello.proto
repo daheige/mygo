@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package Hello;
+
+service HelloService{
+    //方法
+    rpc SayHello(HelloReq) returns (HelloReply) {};
+    rpc GetInfo(HelloReq) returns (Reply){};
+}
+
+message HelloReq{
+    string name = 1;
+}
+
+message HelloReply{
+    string message =1;
+}
+
+//根其他语言进行通信返回code,message,data
+message Reply {
+    int32 code = 1;
+    string message = 2;
+    // string data =3; //这里可以是bytes
+    string data =3; //这里可以是bytes
+}
