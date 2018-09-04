@@ -16,14 +16,16 @@ func main() {
 	time.Sleep(1 * time.Millisecond)
 }
 
-func cust(ch chan int) {
+//生产者
+func production(ch chan int) {
 	for i := 0; i < 5; i++ {
 		ch <- i //将i放入通道ch中
 		fmt.Println("send data >> ", i)
 	}
 }
 
-func production(ch chan int) {
+//消费者
+func cust(ch chan int) {
 	for i := 0; i < 5; i++ {
 		num := <-ch //取出是<-ch
 		fmt.Println("caught << ", num)
