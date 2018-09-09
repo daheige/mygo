@@ -1,9 +1,9 @@
 package main
 
 import (
-    "fmt"
-    "projects/web/jwt"
-    "sync"
+	"fmt"
+	"projects/web/jwt"
+	"sync"
 )
 
 var str string
@@ -13,47 +13,77 @@ var once sync.Once
 //once是一个结构体,内部上面有一个Done字段,执行一次,后面就不会执行
 //atomic.StoreUint32 原子性操作
 func initStr(s string) string {
-    once.Do(func() {
-        fmt.Println(111)
-        str = s
-    })
+	once.Do(func() {
+		fmt.Println(111)
+		str = s
+	})
 
-    return str
+	return str
 }
 
 //允许改变配置的单例模式
 //通过这样的模式,可以解除唯一单例模式
 type Single struct {
-    once   sync.Once
-    config string
+	once   sync.Once
+	config string
 }
 
 func (this *Single) initConfig(config string) {
-    this.once.Do(func() {
-        fmt.Println("init once config:", config)
-        this.config = config
-    })
+	this.once.Do(func() {
+		fmt.Println("init once config:", config)
+		this.config = config
+	})
+}
+
+//通用单例模式结构体
+type Singleton struct {
+	once     sync.Once
+	instance interface{}
+}
+
+type myClient struct {
+	// pool string
+	Name string
+}
+
+var myClientPool = &Singleton{}
+
+func GetMyClientPool(str string) *myClient {
+	myClientPool.once.Do(func() {
+		client := &myClient{
+			Name: str,
+		}
+
+		myClientPool.instance = client
+	})
+
+	return myClientPool.instance.(*myClient)
 }
 
 func main() {
-    j := &jwt.Jwt{}
-    jwt.Sign = "ssf33"
-    j.Test("sss")
-    fmt.Println("fefe")
+	j := &jwt.Jwt{}
+	jwt.Sign = "ssf33"
+	j.Test("sss")
+	fmt.Println("fefe")
 
-    //调用了函数后,内部的Once上的Done执行了一次加1,后面的不会再执行
-    //所以s2的值是sss
-    s := initStr("sss")
-    s2 := initStr("heige")
-    fmt.Println(s, s2)
+	//调用了函数后,内部的Once上的Done执行了一次加1,后面的不会再执行
+	//所以s2的值是sss
+	s := initStr("sss")
+	s2 := initStr("heige")
+	fmt.Println(s, s2)
 
-    obj := &Single{}
-    obj.initConfig("daheige")
-    obj.initConfig("sss") //这里不会发生改变
-    fmt.Println(obj.config)
+	obj := &Single{}
+	obj.initConfig("daheige")
+	obj.initConfig("sss") //这里不会发生改变
+	fmt.Println(obj.config)
 
-    obj2 := &Single{}
-    obj2.initConfig("ssss123456")
-    obj2.initConfig("ssss123456") //这里不会执行fmt.Println
-    fmt.Println(obj2.config)
+	obj2 := &Single{}
+	obj2.initConfig("ssss123456")
+	obj2.initConfig("ssss123456") //这里不会执行fmt.Println
+	fmt.Println(obj2.config)
+
+	GetMyClientPool("daheige")
+	fmt.Println(myClientPool.instance)
+	fmt.Println(GetMyClientPool("heige")) //不会发生改变
+
 }
