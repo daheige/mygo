@@ -1,8 +1,8 @@
-RabbitMQ安装步骤
-虚拟机：VMware workstation 12.0
-Linux系统：CentOS 7.0
-安装Erlang环境
-由于RabbitMQ是采用Erlang编写的，首先需要安装该语言库，以便运行代理服务器，可以参考Erlang官方文档。
+# RabbitMQ安装步骤
+    虚拟机：VMware workstation 12.0
+    Linux系统：CentOS 7.0
+    安装Erlang环境
+    由于RabbitMQ是采用Erlang编写的，首先需要安装该语言库，以便运行代理服务器，可以参考Erlang官方文档。
 
 # erlang-solution配置信息安装
     wget http://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm
