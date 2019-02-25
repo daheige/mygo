@@ -1,4 +1,3 @@
-golang.org/
 github.com/
 gopkg.in/
 gopkg.in/*
@@ -34,8 +33,6 @@ go-by-example/
 go-by-example/*
 .idea/
 .idea/*
-google.golang.org/
-google.golang.org/*
 concurrency-in-go/
 concurrency-in-go/*
 goweb/goroutine/goroutine

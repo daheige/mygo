@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	pb "mygo/protobuf/helloworld"
 	"net"
-	pb "protobuf/helloworld"
 
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"

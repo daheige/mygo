@@ -1,13 +1,15 @@
+//go run inf_client.go daheige 1
 package main
 
 import (
 	"fmt"
+	"log"
+	pb "mygo/protobuf/helloworld"
+	"os"
+	"strconv"
+
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
-	"log"
-	"os"
-	pb "protobuf/helloworld"
-	"strconv"
 )
 
 const (

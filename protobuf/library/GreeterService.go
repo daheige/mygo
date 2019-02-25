@@ -3,7 +3,7 @@ package library
 import (
 	"fmt"
 	"log"
-	pb "protobuf/helloworld"
+	pb "mygo/protobuf/helloworld"
 
 	"golang.org/x/net/context"
 

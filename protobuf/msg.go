@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/golang/protobuf/proto"
 	"log"
-	"protobuf/Im"
+	"mygo/protobuf/Im"
+
+	"github.com/golang/protobuf/proto"
 )
 
 func main() {

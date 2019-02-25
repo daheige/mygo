@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"protobuf/library"
+	"mygo/protobuf/library"
 )
 
 func main() {
@@ -14,3 +14,17 @@ func main() {
 		fmt.Println("reply data: ", userInfo)
 	}
 }
+
+/**
+ * go run inf_getUser.go
+ * reply data:  uid:1 job:"golang" name:"daheige" age:28
+reply data:  uid:1 job:"golang" name:"daheige" age:28
+reply data:  uid:1 job:"golang" name:"daheige" age:28
+reply data:  uid:1 job:"golang" name:"daheige" age:28
+reply data:  uid:1 job:"golang" name:"daheige" age:28
+reply data:  uid:1 job:"golang" name:"daheige" age:28
+reply data:  uid:1 job:"golang" name:"daheige" age:28
+reply data:  uid:1 job:"golang" name:"daheige" age:28
+reply data:  uid:1 job:"golang" name:"daheige" age:28
+reply data:  uid:1 job:"golang" name:"daheige" age:28
+*/
