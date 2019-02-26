@@ -24,6 +24,9 @@ go开发常见的工具包
 上面的gocode安装方式(-u表示update更新包)
     go get -u github.com/nsf/gocode
     go install github.com/nsf/gocode
+    或者
+    go get -u github.com/mdempsky/gocode
+    go install github.com/mdempsky/gocode
 其他的包，我们通过克隆https://github.com/golang/tools.git后安装，参考如下：
     cd $GOPATH/src
     mkdir -p $GOPATH/src/golang.org/x
