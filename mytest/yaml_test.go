@@ -3,7 +3,8 @@ package mytest
 import (
 	"fmt"
 	"testing"
-	"thinkgo/common"
+
+	"github.com/daheige/thinkgo/common"
 )
 
 type NginxConf struct {
@@ -16,10 +17,10 @@ type NginxConf struct {
 func TestYamlRead(t *testing.T) {
 	t.Log("测试yaml读取配置文件")
 
-	conf := common.New()
+	conf := common.NewConf()
 	path := "test.yaml"
 	conf.LoadConf(path)
-	fmt.Println("读取的内容:", conf.Data)
+	fmt.Println("读取的内容:", conf.GetData())
 
 	fmt.Println(conf.GetString("App_key", ""))
 	fmt.Println(conf.GetString("App_key", ""))

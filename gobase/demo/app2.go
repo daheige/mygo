@@ -4,7 +4,8 @@ import (
 	"log"
 	"runtime"
 	"sync"
-	"thinkgo/common"
+
+	"github.com/daheige/thinkgo/common"
 )
 
 var count = 1
@@ -23,6 +24,7 @@ func main() {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
+
 			lock.Lock()
 			defer lock.Unlock()
 			v := count
