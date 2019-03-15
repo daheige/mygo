@@ -26,7 +26,10 @@ func main() {
 	log.Printf("%s", "daheige")
 
 	//将日志记录到文件中
-	file, err := os.Create("test.log")
+	// file, err := os.Create("test.log")
+
+	//日志追加的方式写入
+	file, err := os.OpenFile("test.log", os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
 	if err != nil {
 		log.Println("create log file error: ", err)
 		return
