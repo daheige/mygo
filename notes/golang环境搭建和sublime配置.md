@@ -3,6 +3,7 @@
 下载go1.8.3.linux-amd64.tar.gz
 cd /usr/local/
 sudo wget https://www.golangtc.com/static/go/1.8.3/go1.8.3.linux-amd64.tar.gz
+sudo tar zxvf go1.8.3.linux-amd64.tar.gz
 创建目录
     sudo mkdir /mygo
     sudo mkdir /mygo/bin
