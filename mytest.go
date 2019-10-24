@@ -35,11 +35,13 @@ func main() {
 
 	log.Println("cap(s3) = ", cap(s3), "len = ", len(s3))
 
+	//在golang1.10+以上建议用strings.Builder，进行字符串拼接
 	bf := strings.Builder{}
 	bf.WriteString("fefe")
 	bf.WriteString("daheige")
 	log.Println(bf.String())
 
+	//go version <=1.10
 	bf2 := bytes.Buffer{}
 	bf2.WriteString("fefe,fefeefessss")
 	log.Println(bf2.String())
