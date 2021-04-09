@@ -49,7 +49,7 @@
 # 相对路径导入不在被允许
 	
 	golang1.16开始禁止import导入的模块以.开头，模块路径中也不允许出现任何非ASCII字符，所以下面的代码不再合法：
-	``` go
+	```go
 	import (
 	    "./tools/factory"
 	    "../models/user"
@@ -68,7 +68,7 @@
 	testing包主要的变化是在测试用例里调用os.Exit(0)会从程序终止变成测试失败。
 
 	比如这个：
-	``` go
+	```go
 	package main
 
 	import (
@@ -164,7 +164,7 @@
 	则对子目录进行递归嵌入。
 
 	对于一个完整的嵌入资源，代码中的声明是这样的：
-	``` go
+	```go
 	//go:embed images
 	var imgs embed.FS
 
@@ -183,7 +183,7 @@
 	| embed.FS 			| 表示存储多个文件和目录的结构，[]byte和string只能存储单个文件 |
 
 	实际上接受嵌入文件数据的变量也可以是string和[]byte的类型别名或基于他们定义的新类型，例如下面的代码那样：
-	``` go
+	```go
 	type StringAlias = string
 
 	//go:embed a.txt
@@ -195,7 +195,7 @@
 	var text2 NewBytes
 	```
 	处理单个文件
-	``` go
+	```go
 	package main
 
 	import (
@@ -216,7 +216,7 @@
 	```
 
 	二进制文件的例子，embed_img.go如下所示：
-	``` go
+	```go
 	package main
 
 	import (
@@ -237,7 +237,7 @@
 	```
 
 	处理多个文件和目录
-	``` go
+	```go
 	package main
 
 	import (
@@ -288,7 +288,7 @@
 	类型都可以表现的像是真实存在于文件系统中的目录一样，哪怕它其实是在内存里的类map数据结构。
 	因此我们也可以像遍历目录一样去处理embed.FS
 
-	``` go
+	```go
 	package main
 
 	import (
@@ -344,7 +344,7 @@
 	如果想要内嵌整个module，则在引用的时候需要使用"."这个名字，但除了单独使用之外路径里不可以包含..或者.，换而言之，
 	embed.FS不支持相对路径，把上面的代码稍加修改：
 
-	``` go
+	```go
 	package main
 
 	import (
