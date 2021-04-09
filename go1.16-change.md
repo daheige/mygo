@@ -49,13 +49,13 @@
 # 相对路径导入不在被允许
 	
 	golang1.16开始禁止import导入的模块以.开头，模块路径中也不允许出现任何非ASCII字符，所以下面的代码不再合法：
-	```go
+```go
 	import (
 	    "./tools/factory"
 	    "../models/user"
 	    "some.pkg.com/杀马特/音乐工厂"
 	)
-	```
+```
 
 	对非ASCII字符一如既往的不友好，不过也只能按规矩办事了。
 
@@ -68,20 +68,20 @@
 	testing包主要的变化是在测试用例里调用os.Exit(0)会从程序终止变成测试失败。
 
 	比如这个：
-	```go
-	package main
+```go
+package main
 
-	import (
-	    "os"
-	    "testing"
-	)
+import (
+    "os"
+    "testing"
+)
 
-	func TestXXX(t *testing.T) {
-	    t.Log("exit")
-	    os.Exit(0)
-	}
+func TestXXX(t *testing.T) {
+    t.Log("exit")
+    os.Exit(0)
+}
 
-	```
+```
 # ioutils包已经废弃
 	
 	1.16已经标记io/ioutil为废弃，函数被转移到了os和io这两个包里，具体见下表：
@@ -164,17 +164,17 @@
 	则对子目录进行递归嵌入。
 
 	对于一个完整的嵌入资源，代码中的声明是这样的：
-	```go
-	//go:embed images
-	var imgs embed.FS
+```go
+//go:embed images
+var imgs embed.FS
 
-	//go:embed a.txt
-	var txt []byte
+//go:embed a.txt
+var txt []byte
 
-	//go:embed b.txt
-	var txt2 string
+//go:embed b.txt
+var txt2 string
 
-	```
+```
 	一共有三种数据格式可选：
 	| 数据类型 			| 说明   	|
 	| :----  		| :----  	|
@@ -183,98 +183,98 @@
 	| embed.FS 			| 表示存储多个文件和目录的结构，[]byte和string只能存储单个文件 |
 
 	实际上接受嵌入文件数据的变量也可以是string和[]byte的类型别名或基于他们定义的新类型，例如下面的代码那样：
-	```go
-	type StringAlias = string
+```go
+type StringAlias = string
 
-	//go:embed a.txt
-	var text1 StringAlias
+//go:embed a.txt
+var text1 StringAlias
 
-	type NewBytes []byte
+type NewBytes []byte
 
-	//go:embed b.txt
-	var text2 NewBytes
-	```
+//go:embed b.txt
+var text2 NewBytes
+```
 	处理单个文件
-	```go
-	package main
+```go
+package main
 
-	import (
-	    "fmt"
-	    _ "embed"
-	)
+import (
+    "fmt"
+    _ "embed"
+)
 
-	//go:embed macbeth.txt
-	var macbeth string
+//go:embed macbeth.txt
+var macbeth string
 
-	//go:embed texts/en.txt
-	var hello string
+//go:embed texts/en.txt
+var hello string
 
-	func main() {
-	    fmt.Println(len(macbeth)) // 麦克白的总字符数
-	    fmt.Println(hello) // Output: Hello, world
-	}
-	```
+func main() {
+    fmt.Println(len(macbeth)) // 麦克白的总字符数
+    fmt.Println(hello) // Output: Hello, world
+}
+```
 
 	二进制文件的例子，embed_img.go如下所示：
-	```go
-	package main
+```go
+package main
 
-	import (
-	    "fmt"
-	    _ "embed"
-	)
+import (
+    "fmt"
+    _ "embed"
+)
 
-	//go:embed imgs/screenrecord.gif
-	var gif []byte
+//go:embed imgs/screenrecord.gif
+var gif []byte
 
-	//go:embed imgs/png/a.png
-	var png []byte
+//go:embed imgs/png/a.png
+var png []byte
 
-	func main() {
-	    fmt.Println("gif size:", len(gif)) // gif size: 81100466
-	    fmt.Println("png size:", len(png)) // png size: 4958264
-	}
-	```
+func main() {
+    fmt.Println("gif size:", len(gif)) // gif size: 81100466
+    fmt.Println("png size:", len(png)) // png size: 4958264
+}
+```
 
 	处理多个文件和目录
-	```go
-	package main
+```go
+package main
 
-	import (
-	    "fmt"
-	    "embed"
-	)
+import (
+    "fmt"
+    "embed"
+)
 
-	//go:embed texts
-	var dir embed.FS
+//go:embed texts
+var dir embed.FS
 
-	// 两者没什么区别
-	//go:embed texts/*
-	var files embed.FS
+// 两者没什么区别
+//go:embed texts/*
+var files embed.FS
 
-	func main(){
-	    zh, err := files.ReadFile("texts/zh.txt")
-	    if err != nil {
-	        fmt.Println("read zh.txt error:", err)
-	    } else {
-	        fmt.Println("zh.txt:", string(zh))
-	    }
+func main(){
+    zh, err := files.ReadFile("texts/zh.txt")
+    if err != nil {
+	fmt.Println("read zh.txt error:", err)
+    } else {
+	fmt.Println("zh.txt:", string(zh))
+    }
 
-	    jp, err := dir.ReadFile("jp.txt")
-	    if err != nil {
-	        fmt.Println("read  jp.txt error:", err)
-	    } else {
-	        fmt.Println("jp.txt:", string(jp))
-	    }
-	    
-	    jp, err = dir.ReadFile("texts/jp.txt")
-	    if err != nil {
-	        fmt.Println("read  jp.txt error:", err)
-	    } else {
-	        fmt.Println("jp.txt:", string(jp))
-	    }
-	}
-	```
+    jp, err := dir.ReadFile("jp.txt")
+    if err != nil {
+	fmt.Println("read  jp.txt error:", err)
+    } else {
+	fmt.Println("jp.txt:", string(jp))
+    }
+
+    jp, err = dir.ReadFile("texts/jp.txt")
+    if err != nil {
+	fmt.Println("read  jp.txt error:", err)
+    } else {
+	fmt.Println("jp.txt:", string(jp))
+    }
+}
+```
 
 	我们想读取单个文件需要用ReadFile方法，它接受一个path字符串做参数，从中查找对应的文件然后返回([]byte, error)
 
@@ -288,41 +288,41 @@
 	类型都可以表现的像是真实存在于文件系统中的目录一样，哪怕它其实是在内存里的类map数据结构。
 	因此我们也可以像遍历目录一样去处理embed.FS
 
-	```go
-	package main
+```go
+package main
 
-	import (
-		"embed"
-		"fmt"
-	)
+import (
+	"embed"
+	"fmt"
+)
 
-	// 更推荐直接用imgs去匹配
-	//go:embed imgs/**
-	var dir embed.FS
+// 更推荐直接用imgs去匹配
+//go:embed imgs/**
+var dir embed.FS
 
-	// 遍历当前目录，有兴趣你可以改成递归版本的
-	func printDir(name string) {
-		// 返回[]fs.DirEntry
-		entries, err := dir.ReadDir(name)
-		if err != nil {
-			panic(err)
-		}
-
-		fmt.Println("dir:", name)
-		for _, entry := range entries {
-			// fs.DirEntry的Info接口会返回fs.FileInfo，这东西被从os移动到了io/fs，接口本身没有变化
-			info, _ := entry.Info()
-			fmt.Println("file name:", entry.Name(), "\tisDir:", entry.IsDir(), "\tsize:", info.Size())
-		}
-		fmt.Println()
+// 遍历当前目录，有兴趣你可以改成递归版本的
+func printDir(name string) {
+	// 返回[]fs.DirEntry
+	entries, err := dir.ReadDir(name)
+	if err != nil {
+		panic(err)
 	}
 
-	func main() {
-		printDir("imgs")
-		printDir("imgs/jpg")
-		printDir("imgs/png")
+	fmt.Println("dir:", name)
+	for _, entry := range entries {
+		// fs.DirEntry的Info接口会返回fs.FileInfo，这东西被从os移动到了io/fs，接口本身没有变化
+		info, _ := entry.Info()
+		fmt.Println("file name:", entry.Name(), "\tisDir:", entry.IsDir(), "\tsize:", info.Size())
 	}
-	```
+	fmt.Println()
+}
+
+func main() {
+	printDir("imgs")
+	printDir("imgs/jpg")
+	printDir("imgs/png")
+}
+```
 	运行结果：
 	```
 	dir: imgs
@@ -344,22 +344,22 @@
 	如果想要内嵌整个module，则在引用的时候需要使用"."这个名字，但除了单独使用之外路径里不可以包含..或者.，换而言之，
 	embed.FS不支持相对路径，把上面的代码稍加修改：
 
-	```go
-	package main
+```go
+package main
 
-	import (
-	    "fmt"
-	    "embed"
-	)
+import (
+    "fmt"
+    "embed"
+)
 
-	//go:embed *
-	var dir embed.FS
+//go:embed *
+var dir embed.FS
 
-	func main() {
-	    printDir(".")
-	    //printDir("./texts/../imgs") panic: open ./texts/../imgs: file does not exist
-	}
-	```
+func main() {
+    printDir(".")
+    //printDir("./texts/../imgs") panic: open ./texts/../imgs: file does not exist
+}
+```
 	程序输出：
 	```
 	dir: .
