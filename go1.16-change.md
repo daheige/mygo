@@ -1,7 +1,7 @@
 # go1.16变化
 	
 	主要体现在go fs,io,embed包等以及标准包的改变
-
+	
 # 支持arm64
 	
 	m1芯片可谓是最近的焦点，golang自然也不会落下。
@@ -85,8 +85,9 @@ func TestXXX(t *testing.T) {
 # ioutils包已经废弃
 	
 	1.16已经标记io/ioutil为废弃，函数被转移到了os和io这两个包里，具体见下表：
+
 	| ioutil旧函数 | 	新函数 |
-	| :---- 	  |  :----    |
+	| ---- 	  |  ----    |
 	| Discard 	| io.Discard |
 	| NopCloser | io.NopCloser| 
 	| ReadAll 	| io.ReadAll |
@@ -120,6 +121,7 @@ func TestXXX(t *testing.T) {
     所以io/fs诞生了。
 
 	fs包中主要包含了下面几种数据类型（都是接口类型）：
+
 	| 名称 			| 作用   	|
 	| :----  		| :----  	|
 	| FS 			| 文件系统的抽象，有一个Open方法用来从FS打开获取文件数据 |
@@ -132,6 +134,7 @@ func TestXXX(t *testing.T) {
 	其中有一些接口和os包中的同名，实际上是os包引入fs包后起的别名。
 
 	对于FS，还有以下的扩展，以便增量描述文件系统允许的操作：
+
 	| 名称 			| 作用   	|
 	| :----  		| :----  	|
 	| GlobFS 			| 增加Glob方法，可以用通配符查找文件 |
@@ -176,6 +179,7 @@ var txt2 string
 
 ```
 	一共有三种数据格式可选：
+
 	| 数据类型 			| 说明   	|
 	| :----  		| :----  	|
 	| []byte 			| 代表示数据存储为二进制格式，如果只使用[]byte和string需要以import (_ "embed")的形式引入embed标准库 |
@@ -329,12 +333,10 @@ func main() {
 	file name: jpg  isDir: true     size: 0
 	file name: png  isDir: true     size: 0
 	file name: screenrecord.gif     isDir: false    size: 81100466
-
 	dir: imgs/jpg
 	file name: a.jpg        isDir: false    size: 620419
 	file name: b.jpg        isDir: false    size: 999162
 	file name: c.jpg        isDir: false    size: 349725
-
 	dir: imgs/png
 	file name: a.png        isDir: false    size: 4958264
 	file name: b.png        isDir: false    size: 1498303
@@ -376,7 +378,7 @@ func main() {
 	```
 	因为使用了错误的文件名或路径会在运行时panic，所以要格外小心。
     （当然//go:embed是在编译时检查的，而且同样不支持相对路径，同时也不支持超出了module目录的任何路径，
-	比如go module在/tmp/proj，我们指定了/tmp/proj2）
+    比如go module在/tmp/proj，我们指定了/tmp/proj2）
 
 	你也可以用embed.FS处理单个文件，但我个人认为单个文件就没必要再多包装一层了。
 
