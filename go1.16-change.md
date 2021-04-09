@@ -86,16 +86,16 @@ func TestXXX(t *testing.T) {
 	
 	1.16已经标记io/ioutil为废弃，函数被转移到了os和io这两个包里，具体见下表：
 
-	| ioutil旧函数 | 	新函数 |
-	| ---- 	  |  ----    |
-	| Discard 	| io.Discard |
-	| NopCloser | io.NopCloser| 
-	| ReadAll 	| io.ReadAll |
-	| ReadDir 	| os.ReadDir |
-	| ReadFile 	| os.ReadFile |
-	| WriteFile | os.WriteFile |
-	| TempDir 	| os.MkdirTemp |
-	| TempFile 	| os.CreateTemp |
+| ioutil旧函数 | 	新函数 |
+| ---- 	  |  ----    |
+| Discard 	| io.Discard |
+| NopCloser | io.NopCloser| 
+| ReadAll 	| io.ReadAll |
+| ReadDir 	| os.ReadDir |
+| ReadFile 	| os.ReadFile |
+| WriteFile | os.WriteFile |
+| TempDir 	| os.MkdirTemp |
+| TempFile 	| os.CreateTemp |
 
 	现在开始可以做移植了。
 
@@ -122,26 +122,26 @@ func TestXXX(t *testing.T) {
 
 	fs包中主要包含了下面几种数据类型（都是接口类型）：
 
-	| 名称 			| 作用   	|
-	| :----  		| :----  	|
-	| FS 			| 文件系统的抽象，有一个Open方法用来从FS打开获取文件数据 |
-	| DirEntry 		| 描述目录项目（包含目录自身）的数据结构 |
-	| File 			| 描述文件数据的结构，包含Stat，Read，Close方法 |
-	| ReadDirFile 	| 在File的基础上支持ReadDir，可以代表目录自身 |
-	| FileMode 		| 描述文件类型，比如是通常文件还是套接字或者是管道 |
-	| FileInfo 		| 文件的元数据，例如创建时间等 |
+| 名称 			| 作用   	|
+| :----  		| :----  	|
+| FS 			| 文件系统的抽象，有一个Open方法用来从FS打开获取文件数据 |
+| DirEntry 		| 描述目录项目（包含目录自身）的数据结构 |
+| File 			| 描述文件数据的结构，包含Stat，Read，Close方法 |
+| ReadDirFile 	| 在File的基础上支持ReadDir，可以代表目录自身 |
+| FileMode 		| 描述文件类型，比如是通常文件还是套接字或者是管道 |
+| FileInfo 		| 文件的元数据，例如创建时间等 |
 
 	其中有一些接口和os包中的同名，实际上是os包引入fs包后起的别名。
 
 	对于FS，还有以下的扩展，以便增量描述文件系统允许的操作：
 
-	| 名称 			| 作用   	|
-	| :----  		| :----  	|
-	| GlobFS 			| 增加Glob方法，可以用通配符查找文件 |
-	| ReadDirFS 		| 增加ReadDir方法，可以遍历目录 |
-	| ReadFileFS 			| 增加ReadFile方法，可以用文件名读取文件所有内容 |
-	| StatFS 	| 增加Stat方法，可以获得文件/目录的元信息 |
-	| SubFS 		| 增加Sub方法，Sub方法接受一个文件/目录的名字，从这个名字作为根目录返回一个新的文件系统对象 |
+| 名称 			| 作用   	|
+| :----  		| :----  	|
+| GlobFS 			| 增加Glob方法，可以用通配符查找文件 |
+| ReadDirFS 		| 增加ReadDir方法，可以遍历目录 |
+| ReadFileFS 			| 增加ReadFile方法，可以用文件名读取文件所有内容 |
+| StatFS 	| 增加Stat方法，可以获得文件/目录的元信息 |
+| SubFS 		| 增加Sub方法，Sub方法接受一个文件/目录的名字，从这个名字作为根目录返回一个新的文件系统对象 |
 
 	fs包还提供了诸如Glob，WalkDir等传统的文件操作接口。
 	fs的主要威力在于处理zip、tar文件，以及http的文件接口时可以大幅简化代码。而且新的embed静态资源嵌入也是依赖fs实现的
@@ -154,13 +154,13 @@ func TestXXX(t *testing.T) {
 	//go:embed pattern
 	// pattern是path.Match所支持的路径通配符
 
-	| 通配符 			| 作用   	|
-	| :----  		| :----  	|
-	| ? 			| 代表任意一个字符（不包括半角中括号） |
-	| * 		| 代表0至多个任意字符组成的字符串（不包括半角中括号） |
-	| [...]和[!...] 			| 代表任意一个匹配方括号里字符的字符，!表示任意不匹配方括号中字符的字符 |
-	| [a-z]、[0-9] 	| 代表匹配a-z任意一个字符的字符或是0-9中的任意一个数字 |
-	| ** 		| 部分系统支持，*不能跨目录匹配，**可以，不过目前个golang中和*是同义词 |
+| 通配符 			| 作用   	|
+| :----  		| :----  	|
+| ? 			| 代表任意一个字符（不包括半角中括号） |
+| * 		| 代表0至多个任意字符组成的字符串（不包括半角中括号） |
+| [...]和[!...] 			| 代表任意一个匹配方括号里字符的字符，!表示任意不匹配方括号中字符的字符 |
+| [a-z]、[0-9] 	| 代表匹配a-z任意一个字符的字符或是0-9中的任意一个数字 |
+| ** 		| 部分系统支持，*不能跨目录匹配，**可以，不过目前个golang中和*是同义词 |
 
 	golang的embed默认的根目录从module的目录开始，路径开头不可以带/，不管windows还是其他系统路径分割副一律使用/。
 	如果匹配到的是目录，那么目录下的所有文件都会被嵌入（有部分文件夹和文件会被排除，后面详细介绍），如果其中包含有子目录，
@@ -180,11 +180,11 @@ var txt2 string
 ```
 	一共有三种数据格式可选：
 
-	| 数据类型 			| 说明   	|
-	| :----  		| :----  	|
-	| []byte 			| 代表示数据存储为二进制格式，如果只使用[]byte和string需要以import (_ "embed")的形式引入embed标准库 |
-	| string		| 表示数据被编码成utf8编码的字符串，因此不要用这个格式嵌入二进制文件比如图片，引入embed的规则同[]byte |
-	| embed.FS 			| 表示存储多个文件和目录的结构，[]byte和string只能存储单个文件 |
+| 数据类型 			| 说明   	|
+| :----  		| :----  	|
+| []byte 			| 代表示数据存储为二进制格式，如果只使用[]byte和string需要以import (_ "embed")的形式引入embed标准库 |
+| string		| 表示数据被编码成utf8编码的字符串，因此不要用这个格式嵌入二进制文件比如图片，引入embed的规则同[]byte |
+| embed.FS 			| 表示存储多个文件和目录的结构，[]byte和string只能存储单个文件 |
 
 	实际上接受嵌入文件数据的变量也可以是string和[]byte的类型别名或基于他们定义的新类型，例如下面的代码那样：
 ```go
